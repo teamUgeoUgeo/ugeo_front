@@ -1,0 +1,45 @@
+.form {
+    width: 90%;
+}
+.title {
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 0 0 1.875rem;
+}
+.input {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    gap: .3125rem;
+    margin: 0 0 .9375rem;
+}
+.input input {
+    width: 100%;
+    border: none;
+    background: #f4f4f4;
+    border-radius: 10px;
+    height: 3rem;
+    padding: 0 1rem;
+}
+input:focus {
+    outline: none;
+}
+input.invalid {
+    border: 1px solid rgb(240, 66, 66);
+    background: rgb(255, 222, 222);
+}
+p.invalid {
+    color:rgb(240, 66, 66);
+}
+.button {
+    width: 100%;
+    margin: .625rem 0 1.25rem;
+}
+
+.link {
+    display: block;
+    text-align: center;
+}
+.link:hover {
+    color: #2eab64;
+}

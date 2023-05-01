@@ -1,0 +1,76 @@
+@font-face {
+  font-family: 'Pretendard Variable';
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+  src: local('Pretendard Variable'),
+    url('./font/PretendardVariable.woff2') format('woff2-variations');
+}
+* {
+  box-sizing: border-box;
+  font-size: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  list-style: none;
+  font-weight: normal;
+}
+body,
+button {
+  font-family: 'Pretendard Variable';
+}
+a {
+  text-decoration: none;
+  color: #222;
+}
+#root main {
+  margin: 3.875rem 0 0;
+  width: 100%;
+  background: #fff;
+}
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.space-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+main .max-width {
+  min-height: calc(100vh - 3.875rem);
+}
+.p-1 {
+  color: #2eab64;
+}
+main button {
+  background-color: #2eab64;
+  color: #fff;
+  border: none;
+
+  font-size: 1rem;
+  padding: 1rem;
+  border-radius: 10px;
+  transition: 0.2s;
+}
+main button:hover, main .link:hover {
+  background-color: #37b76e;
+  color: #fff;
+}
+a.link {
+  background-color: #2eab64;
+  text-decoration: none;
+  padding: 0.625rem;
+  border-radius: 10px;
+  color: #fff;
+  transition: 0.2s;
+}
+.max-width {
+  border-radius: 0;
+  border: none;
+  width: 90%;
+
+  max-width: 75rem;
+  margin: 0 auto;
+}

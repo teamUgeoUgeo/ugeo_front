@@ -1,26 +1,24 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
   mode: 'development',
   output: {
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, 'dist'),
     filename: 'index_bundle.js',
   },
   target: 'web',
   devServer: {
     port: '3000',
     static: {
-      directory: path.join(__dirname, 'public'),
+      directory: path.join(__dirname, 'dist'),
     },
-    open: true,
-    hot: true,
     liveReload: true,
-    historyApiFallback: true,
+    open: true,
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.json'],
+    extensions: ['.js', '.jsx', '.json', '.css'],
   },
   module: {
     rules: [
@@ -38,6 +36,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'public', 'index.html'),
-    }),
+      scriptType: 'text/javascript', 
+    })
   ],
 };

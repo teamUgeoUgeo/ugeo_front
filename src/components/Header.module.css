@@ -1,0 +1,20 @@
+.header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+
+    padding: 1.25rem 5%;
+
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+}
+.logout {
+    background: transparent;
+    border: none;
+    font-size: .875rem;
+    color: unset;
+}

@@ -125,6 +125,12 @@ const LoginForm = () => {
 
   const resetValue = () => {
     formRef.current.reset();
+
+    setUsernameMessage('');
+    setNicknameMessage('');
+    setPasswordMessage('');
+    setPasswordConfirmMessage('');
+  
   };
 
   return (

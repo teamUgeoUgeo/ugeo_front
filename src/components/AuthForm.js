@@ -81,7 +81,6 @@ const LoginForm = () => {
   const onEmailHandler = (event) => {
     const value = event.target.value;
     setEmail(value);
-    checkEmail(value);
   }
 
   const onNicknameHandler = (event) => {

@@ -9,11 +9,7 @@ const LoginForm = () => {
   const data = useActionData();
   const formRef = useRef();
 
-  const isOnlyStrNum = function (value) {
-    return /^[a-zA-Z0-9]+$/.test(value);
-  };
-
-  const isMoreThan4Length = function (value) {
+  const isMoreThan4Length = function(value) {
     return value.length >= 4;
   };
 
@@ -26,11 +22,6 @@ const LoginForm = () => {
   };
 
   const checkUsername = function (value) {
-    if (!isOnlyStrNum(value) && value) {
-      setUsernameMessage('영문자와 숫자만 입력 가능합니다.');
-      return false;
-    }
-
     if (!isMoreThan4Length(value) && value) {
       setUsernameMessage('4자 이상의 id를 입력해주세요.');
       return false;
@@ -71,11 +62,13 @@ const LoginForm = () => {
 
   const [username, setUsername] = useState('');
   const [nickname, setNickname] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
   const [usernameMessage, setUsernameMessage] = useState('');
   const [nicknameMessage, setNicknameMessage] = useState('');
+  const [emailMessage, setEmailMessage] = useState('');
   const [passwordMessage, setPasswordMessage] = useState('');
   const [passwordConfirmMessage, setPasswordConfirmMessage] = useState('');
 
@@ -84,6 +77,12 @@ const LoginForm = () => {
     setUsername(value);
     checkUsername(value);
   };
+
+  const onEmailHandler = (event) => {
+    const value = event.target.value;
+    setEmail(value);
+    checkEmail(value);
+  }
 
   const onNicknameHandler = (event) => {
     const value = event.target.value;
@@ -105,28 +104,45 @@ const LoginForm = () => {
 
   const onSubmitHandler = (event) => {
 
+    if (!isLogin){
+      !checkNickname(nickname) ||
+      !checkPasswordConfirm(passwordConfirm)
+        ? event.preventDefault()
+        : '';
+
+        if (password !== passwordConfirm) {
+          setPasswordConfirmMessage('입력한 비밀번호와 다릅니다.');
+        }
+
+        if(!email) setEmailMessage('email은 비어있으면 안됩니다.');
+        if(!nickname) setNicknameMessage('nickname은 비어있으면 안됩니다.');
+        if(!passwordConfirm) setPasswordConfirmMessage('passwordConfirm은 비어있으면 안됩니다.');
+
+        !email || !nickname || !passwordConfirm 
+        ? event.preventDefault()
+        : '';
+    }
+
     !checkUsername(username) ||
-    !checkNickname(nickname) ||
-    !checkPassword(password) ||
-    !checkPasswordConfirm(passwordConfirm)
+    !checkPassword(password) 
       ? event.preventDefault()
       : '';
 
 
-    if (password !== passwordConfirm) {
-      setPasswordConfirmMessage('입력한 비밀번호와 다릅니다.');
-    }
-
-    // if(!username) setUsernameMessage('username은 비어있으면 안됩니다.');
-    // if(!nickname) setNicknameMessage('nickname은 비어있으면 안됩니다.');
+    if(!username) setUsernameMessage('username은 비어있으면 안됩니다.');
     if(!password) setPasswordMessage('password은 비어있으면 안됩니다.');
-    if(!passwordConfirm) setPasswordConfirmMessage('passwordConfirm은 비어있으면 안됩니다.');
+
+    !username || !password 
+    ? event.preventDefault()
+    : '';
+    
   };
 
   const resetValue = () => {
     formRef.current.reset();
 
     setUsernameMessage('');
+    setEmailMessage('');
     setNicknameMessage('');
     setPasswordMessage('');
     setPasswordConfirmMessage('');
@@ -154,9 +170,6 @@ const LoginForm = () => {
             onChange={onUsernameHandler}
           />
           <>
-          {data && data['username'] && (
-            <p className={classes.invalid}>{data['username']}</p>
-          )}
           {usernameMessage && (
             <p className={classes.invalid}>{usernameMessage}</p>
           )}
@@ -166,9 +179,12 @@ const LoginForm = () => {
           <>
             <div className={classes.input}>
               <label htmlFor="email">Email</label>
-              <input type="email" id="email" name="email" />
+              <input type="email" id="email" name="email"  onChange={onEmailHandler}/>
               {data  && data ['email'] && (
                 <p className={classes.invalid}>{data['email']}</p>
+              )}
+              {emailMessage && (
+                <p className={classes.invalid}>{emailMessage}</p>
               )}
             </div>
 
@@ -176,9 +192,6 @@ const LoginForm = () => {
               <label htmlFor="nickname">nickname</label>
               <input type="nickname" id="nickname" name="nickname" onChange={onNicknameHandler}/>
               <>
-              {data  && data ['nickname'] && (
-                <p className={classes.invalid}>{data['nickname']}</p>
-              )}
               {nicknameMessage && (
                 <p className={classes.invalid}>{nicknameMessage}</p>
               )}

@@ -6,7 +6,7 @@ function Header() {
 
     return (
       <header className={classes.header}>
-        <div className="max-width space-between">
+        <div className={`${classes.headerwrap} max-width space-between`} >
             <Link to="/">
                 logo
             </Link>

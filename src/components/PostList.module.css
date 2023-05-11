@@ -1,0 +1,63 @@
+.home {
+    display: flex;
+    flex-flow: row;
+
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
+
+.home .sidemenu {
+    padding: 1.875rem;
+    width: 30%;
+    border-right: 1px solid #ddd;
+}
+
+.home .content {
+    padding: 1.875rem;
+    width: 70%;
+    background: #f6f6f6;
+}
+
+.list {
+    display: flex;
+    flex-flow: column;
+    gap: 10px;
+    min-height: 100vh;
+}
+
+.list li {
+    border-radius: 10px;
+    padding: 1.875rem;
+    background: #fff;
+    /* border-bottom: 1px solid #ddd; */
+}
+
+.form  {
+    background: #fff;
+    border-radius: .625rem;
+    display: flex;
+    flex-flow: column;
+    gap: .625rem;
+    margin: 0 0 1.875rem;
+    padding: .9375rem;
+    font-family: p;
+}
+
+.form input {
+    background: #fff;
+    border: none;
+    padding: .9375rem;
+    border-radius: .625rem;
+}
+
+input[name=price] {
+    background: #f6f6f6;
+}
+
+textarea[name=content] {
+    max-height: 7.5rem;
+    padding: .9375rem;
+    border: none;
+    resize: none;
+    outline: none;
+}

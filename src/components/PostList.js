@@ -1,35 +1,25 @@
-import { Link, Form } from 'react-router-dom';
+import { Form } from 'react-router-dom';
+import PostForm from './PostForm';
 import classes from './PostList.module.css';
+import pageClasses from './PageContent.module.css'
 
 const PostList = () => {
   return (
-    <div className={classes.home} >
-      <aside className={classes.sidemenu}>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">홈</Link>
-            </li>
-            <li>
-              <Link to="/">검색</Link>
-            </li>
-            <li>
-              <Link to="/">설정</Link>
-            </li>
-          </ul>
-        </nav>
-      </aside>
-      <section className={classes.content}>
-        <Form className={classes.form}>
-          <input type="text" name="price" placeholder="소비한 금액"/>
-         <textarea name="content" id="" cols="30" rows="10" placeholder="어디다 썼나요?"></textarea>
-        </Form>
+      <section className={`${pageClasses.section} ${classes.section}`}>
+        <PostForm></PostForm>
         <ul className={classes.list}>
             <li>글1</li>
             <li>글2</li>
+            <li>글3</li>
+            <li>글4</li>
+            <li>글5</li>
+            <li>글6</li>
+            <li>글7</li>
+            <li>글7</li>
+            <li>글7</li>
+            <li>글7</li>
         </ul>
       </section>
-    </div>
   );
 };
 

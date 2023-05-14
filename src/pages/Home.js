@@ -1,5 +1,6 @@
 import { Link, useRouteLoaderData } from 'react-router-dom';
 import PageContent from '../components/PageContent';
+import Sidebar from '../components/Sidebar';
 import PostList from '../components/PostList';
 import classes from '../components/PageContent.module.css'
 
@@ -16,7 +17,12 @@ const HomePage = () => {
             <Link className={classes.link + ' link'} to="/auth/login/">로그인하기</Link>
           </>
         )}
-        {token && (<PostList></PostList>)}
+        {token && ( 
+          <>
+            <Sidebar></Sidebar>
+            <PostList></PostList>
+          </>
+        )}
 
       </PageContent>
   );

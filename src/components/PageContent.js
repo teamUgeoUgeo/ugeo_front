@@ -1,16 +1,14 @@
 import { useRouteLoaderData } from 'react-router-dom';
 import classes from './PageContent.module.css';
 
-const PageContent = ({ title, children }) => {
+const PageContent = ({ children }) => {
   const token = useRouteLoaderData('root');
 
   return (
     <main className={token ? classes.login : classes.logout}>
-      <div className={'max-width' + (token ? '' : ' flex-center')}>
-        <section className={classes.content}>
+        <div className={`${classes.content} max-width`}  >
           {children}
-        </section>
-      </div>
+        </div>
     </main>
   );
 };

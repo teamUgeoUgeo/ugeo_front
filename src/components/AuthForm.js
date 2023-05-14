@@ -178,7 +178,7 @@ const LoginForm = () => {
           <>
             <div className={classes.input}>
               <label htmlFor="email">Email</label>
-              <input type="email" id="email" name="email"  onChange={onEmailHandler}/>
+              <input type="email" id="email" name="email" onChange={onEmailHandler}/>
               {data  && data ['email'] && (
                 <p className={classes.invalid}>{data['email']}</p>
               )}

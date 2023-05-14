@@ -1,0 +1,10 @@
+
+.sidemenu {
+    padding: 1.875rem;
+    width: 30%;
+    border-right: 1px solid #ddd;
+
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+}

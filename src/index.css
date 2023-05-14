@@ -16,7 +16,8 @@
   font-weight: normal;
 }
 body,
-button {
+button,
+input, textarea {
   font-family: 'Pretendard Variable';
 }
 a {
@@ -24,9 +25,14 @@ a {
   color: #222;
 }
 #root main {
-  margin: 3.875rem 0 0;
+  margin: 3.75rem 0 0;
   width: 100%;
   background: #fff;
+
+}
+.flex-row {
+  display: flex;
+  flex-flow: row;
 }
 .flex-center {
   display: flex;
@@ -38,8 +44,8 @@ a {
   align-items: center;
   justify-content: space-between;
 }
-main .max-width {
-  min-height: calc(100vh - 3.875rem);
+main{
+  min-height: calc(100vh - 3.75rem);
 }
 .p-1 {
   color: #2eab64;

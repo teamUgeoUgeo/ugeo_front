@@ -1,0 +1,45 @@
+# This is a basic workflow to help you get started with Actions
+
+name: build docker image
+
+# Controls when the workflow will run
+on:
+  # main 브랜치 push 될때만 작동
+  push:
+    branches: [ main ]
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code.   # 레포지토리 체크아웃
+        uses: actions/checkout@master
+
+      - name: Install Dependencies    # 의존 파일 설치
+        run: npm install
+
+
+      - name: Build                   # React Build
+        run: npm run build
+
+      - name: Show host info
+        run: |
+          uname -a
+          cat /etc/os-release
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_ID }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build container image
+        run: |
+          IMAGE_NAME=${{secrets.DOCKERHUB_ID}}/ugeo_front
+          docker build -t $IMAGE_NAME .
+          echo
+      - name: Push container image
+        run: |
+          docker push ${{secrets.DOCKERHUB_ID}}/ugeo_front
+          echo "Pushed container image: $IMAGE_NAME"

@@ -3,7 +3,7 @@ import PageContent from '../components/PageContent';
 
 import AuthForm from '../components/AuthForm';
 
-const AuthPage = () => {
+const CreatePage = () => {
   return (
     <PageContent>
       <AuthForm />
@@ -11,26 +11,24 @@ const AuthPage = () => {
   );
 };
 
-export default AuthPage;
+export default CreatePage;
 
 export async function action({ request }) {
+  const path = window.location.pathname;
 
-  const path = window.location.pathname
-  const mode = path || '/auth/login/';
-
-  if (mode !== '/auth/login/' && mode !== '/register/') {
+  if (path !== '/user/create') {
     throw json({ message: '지원하지 않는 모드 입니다.' }, { status: 422 });
   }
 
   const data = await request.formData();
   const authData = {
-    username: data.get('username'),
     email: data.get('email'),
+    username: data.get('email'),
     nickname: data.get('nickname'),
     password: data.get('password'),
   };
 
-  const response = await fetch('https://ugeo-back.sigae.kim' + mode, {
+  const response = await fetch('/api/user/create', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -38,7 +36,7 @@ export async function action({ request }) {
     body: JSON.stringify(authData),
   });
 
-  if (response.status === 400) {
+  if (response.status === 401 || response.status === 409) {
     return response;
   }
 
@@ -46,11 +44,6 @@ export async function action({ request }) {
     throw json({ message: '사용자 인증 불가.' }, { status: 500 });
   }
 
-  const resData = await response.json();
-  const token = resData.token;
-
-  localStorage.setItem('token', token);
-
-  return redirect('/');
+  return redirect('/user/create/complete');
 
 }

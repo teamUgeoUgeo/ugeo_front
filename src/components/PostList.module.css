@@ -1,17 +1,17 @@
 .section {
-    max-height: calc(100vh - 3.75rem);
-    overflow-y: auto;
+  max-height: calc(100vh - 3.75rem);
+  overflow-y: auto;
 }
 .list {
-    display: flex;
-    flex-flow: column;
-    gap: 10px;
-    /* min-height: 100vh; */
+  display: flex;
+  flex-flow: column;
+  gap: 10px;
+  /* min-height: 100vh; */
 }
 
 .list li {
-    border-radius: 10px;
-    padding: 1.875rem;
-    background: #fff;
-    /* border-bottom: 1px solid #ddd; */
+  border-radius: 10px;
+  padding: 1.875rem;
+  background: #fff;
+  /* border-bottom: 1px solid #ddd; */
 }

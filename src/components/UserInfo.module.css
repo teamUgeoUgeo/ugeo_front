@@ -1,33 +1,33 @@
 .userinfo {
-    background: #f7f7f7;
-    padding: .9375rem;
-    border-radius: 10px;
+  background: #f7f7f7;
+  padding: 0.9375rem;
+  border-radius: 10px;
 
-    display: flex;
-    flex-flow: column;
+  display: flex;
+  flex-flow: column;
 }
 
 .userinfo .profileimg {
-    width: 3.75rem;
-    background: #ccc;
+  width: 3.75rem;
+  background: #ccc;
 
-    aspect-ratio: 1/1;
-    border-radius: 50%;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
 
-    margin: 0 0 .9375rem;
+  margin: 0 0 0.9375rem;
 }
 
 .userinfo .nickname {
-    color: #aaa;
-    font-size: .875rem;
+  color: #aaa;
+  font-size: 0.875rem;
 }
 
 .userinfo .amount {
-    border-top: 1px solid #ccc;
-    margin: .9375rem 0 0;
-    padding: .625rem 0;
+  border-top: 1px solid #ccc;
+  margin: 0.9375rem 0 0;
+  padding: 0.625rem 0;
 
-    display: flex;
-    flex-flow: row;
-    justify-content: space-between;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
 }

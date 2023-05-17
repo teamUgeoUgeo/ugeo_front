@@ -1,5 +1,5 @@
-import { Form } from 'react-router-dom';
-import classes from './PostForm.module.css';
+import { Form } from "react-router-dom";
+import classes from "./PostForm.module.css";
 
 const PostForm = () => {
   return (
@@ -12,7 +12,9 @@ const PostForm = () => {
         rows="10"
         placeholder="어디다 썼나요?"
       ></textarea>
-      <button  className={classes.button} type="button">등록하기</button>
+      <button className={classes.button} type="button">
+        등록하기
+      </button>
     </Form>
   );
 };

@@ -1,10 +1,10 @@
 @font-face {
-  font-family: 'Pretendard Variable';
+  font-family: "Pretendard Variable";
   font-weight: 45 920;
   font-style: normal;
   font-display: swap;
-  src: local('Pretendard Variable'),
-    url('./font/PretendardVariable.woff2') format('woff2-variations');
+  src: local("Pretendard Variable"),
+    url("./font/PretendardVariable.woff2") format("woff2-variations");
 }
 * {
   box-sizing: border-box;
@@ -17,8 +17,9 @@
 }
 body,
 button,
-input, textarea {
-  font-family: 'Pretendard Variable';
+input,
+textarea {
+  font-family: "Pretendard Variable";
 }
 a {
   text-decoration: none;
@@ -28,7 +29,6 @@ a {
   margin: 3.75rem 0 0;
   width: 100%;
   background: #fff;
-
 }
 .flex-row {
   display: flex;
@@ -44,7 +44,7 @@ a {
   align-items: center;
   justify-content: space-between;
 }
-main{
+main {
   min-height: calc(100vh - 3.75rem);
 }
 .p-1 {
@@ -60,7 +60,8 @@ main button {
   border-radius: 10px;
   transition: 0.2s;
 }
-main button:hover, main .link:hover {
+main button:hover,
+main .link:hover {
   background-color: #37b76e;
   color: #fff;
 }

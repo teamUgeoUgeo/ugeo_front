@@ -1,15 +1,15 @@
-import { useRef, useState } from 'react';
-import { Form, Link, useActionData } from 'react-router-dom';
-import classes from './AuthForm.module.css';
+import { useRef, useState } from "react";
+import { Form, Link, useActionData } from "react-router-dom";
+import classes from "./AuthForm.module.css";
 
 const LoginForm = () => {
   const currentPath = window.location.pathname;
-  const isLogin = currentPath === '/auth/login/';
+  const isLogin = currentPath === "/auth/login/";
 
   const data = useActionData();
   const formRef = useRef();
 
-  const isMoreThan4Length = function(value) {
+  const isMoreThan4Length = function (value) {
     return value.length >= 4;
   };
 
@@ -23,54 +23,54 @@ const LoginForm = () => {
 
   const checkUsername = function (value) {
     if (!isMoreThan4Length(value) && value) {
-      setUsernameMessage('4자 이상의 id를 입력해주세요.');
+      setUsernameMessage("4자 이상의 id를 입력해주세요.");
       return false;
     }
 
-    setUsernameMessage('');
+    setUsernameMessage("");
     return true;
   };
 
-  const checkNickname= function (value) {
+  const checkNickname = function (value) {
     if (!islessThan8Length(value) && value) {
-      setNicknameMessage('8자는 넘기지 마세요.');
+      setNicknameMessage("8자는 넘기지 마세요.");
       return false;
     }
 
-    setNicknameMessage('');
+    setNicknameMessage("");
     return true;
   };
 
   const checkPassword = function (value) {
     if (!islessThan16Length(value) && value) {
-      setPasswordMessage('16자는 넘기지 마세요.');
+      setPasswordMessage("16자는 넘기지 마세요.");
       return false;
     }
-    setPasswordMessage('');
+    setPasswordMessage("");
     return true;
   };
 
   const checkPasswordConfirm = function (value) {
-    if (password !== value  && value) {
-      setPasswordConfirmMessage('입력한 비밀번호와 다릅니다.');
+    if (password !== value && value) {
+      setPasswordConfirmMessage("입력한 비밀번호와 다릅니다.");
       return false;
     }
 
-    setPasswordConfirmMessage('');
+    setPasswordConfirmMessage("");
     return true;
   };
 
-  const [username, setUsername] = useState('');
-  const [nickname, setNickname] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [username, setUsername] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
 
-  const [usernameMessage, setUsernameMessage] = useState('');
-  const [nicknameMessage, setNicknameMessage] = useState('');
-  const [emailMessage, setEmailMessage] = useState('');
-  const [passwordMessage, setPasswordMessage] = useState('');
-  const [passwordConfirmMessage, setPasswordConfirmMessage] = useState('');
+  const [usernameMessage, setUsernameMessage] = useState("");
+  const [nicknameMessage, setNicknameMessage] = useState("");
+  const [emailMessage, setEmailMessage] = useState("");
+  const [passwordMessage, setPasswordMessage] = useState("");
+  const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("");
 
   const onUsernameHandler = (event) => {
     const value = event.target.value;
@@ -81,13 +81,13 @@ const LoginForm = () => {
   const onEmailHandler = (event) => {
     const value = event.target.value;
     setEmail(value);
-  }
+  };
 
   const onNicknameHandler = (event) => {
     const value = event.target.value;
     setNickname(value);
     checkNickname(value);
-  }
+  };
 
   const onPasswordHandler = (event) => {
     const value = event.target.value;
@@ -102,50 +102,41 @@ const LoginForm = () => {
   };
 
   const onSubmitHandler = (event) => {
-
-    if (!isLogin){
-      !checkNickname(nickname) ||
-      !checkPasswordConfirm(passwordConfirm)
+    if (!isLogin) {
+      !checkNickname(nickname) || !checkPasswordConfirm(passwordConfirm)
         ? event.preventDefault()
-        : '';
+        : "";
 
-        if (password !== passwordConfirm) {
-          setPasswordConfirmMessage('입력한 비밀번호와 다릅니다.');
-        }
+      if (password !== passwordConfirm) {
+        setPasswordConfirmMessage("입력한 비밀번호와 다릅니다.");
+      }
 
-        if(!email) setEmailMessage('email은 비어있으면 안됩니다.');
-        if(!nickname) setNicknameMessage('nickname은 비어있으면 안됩니다.');
-        if(!passwordConfirm) setPasswordConfirmMessage('passwordConfirm은 비어있으면 안됩니다.');
+      if (!email) setEmailMessage("email은 비어있으면 안됩니다.");
+      if (!nickname) setNicknameMessage("nickname은 비어있으면 안됩니다.");
+      if (!passwordConfirm)
+        setPasswordConfirmMessage("passwordConfirm은 비어있으면 안됩니다.");
 
-        !email || !nickname || !passwordConfirm 
-        ? event.preventDefault()
-        : '';
+      !email || !nickname || !passwordConfirm ? event.preventDefault() : "";
     }
 
-    !checkUsername(username) ||
-    !checkPassword(password) 
+    !checkUsername(username) || !checkPassword(password)
       ? event.preventDefault()
-      : '';
+      : "";
 
+    if (!username) setUsernameMessage("username은 비어있으면 안됩니다.");
+    if (!password) setPasswordMessage("password은 비어있으면 안됩니다.");
 
-    if(!username) setUsernameMessage('username은 비어있으면 안됩니다.');
-    if(!password) setPasswordMessage('password은 비어있으면 안됩니다.');
-
-    !username || !password 
-    ? event.preventDefault()
-    : '';
-    
+    !username || !password ? event.preventDefault() : "";
   };
 
   const resetValue = () => {
     formRef.current.reset();
 
-    setUsernameMessage('');
-    setEmailMessage('');
-    setNicknameMessage('');
-    setPasswordMessage('');
-    setPasswordConfirmMessage('');
-  
+    setUsernameMessage("");
+    setEmailMessage("");
+    setNicknameMessage("");
+    setPasswordMessage("");
+    setPasswordConfirmMessage("");
   };
 
   return (
@@ -156,8 +147,8 @@ const LoginForm = () => {
         ref={formRef}
         onSubmit={onSubmitHandler}
       >
-        <h4 className={classes.title + ' p-1'}>
-          {isLogin ? 'Login' : 'Sign up'}
+        <h4 className={classes.title + " p-1"}>
+          {isLogin ? "Login" : "Sign up"}
         </h4>
 
         <div className={classes.input}>
@@ -169,18 +160,23 @@ const LoginForm = () => {
             onChange={onUsernameHandler}
           />
           <>
-          {usernameMessage && (
-            <p className={classes.invalid}>{usernameMessage}</p>
-          )}
+            {usernameMessage && (
+              <p className={classes.invalid}>{usernameMessage}</p>
+            )}
           </>
         </div>
         {!isLogin && (
           <>
             <div className={classes.input}>
               <label htmlFor="email">Email</label>
-              <input type="email" id="email" name="email" onChange={onEmailHandler}/>
-              {data  && data ['email'] && (
-                <p className={classes.invalid}>{data['email']}</p>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                onChange={onEmailHandler}
+              />
+              {data && data["email"] && (
+                <p className={classes.invalid}>{data["email"]}</p>
               )}
               {emailMessage && (
                 <p className={classes.invalid}>{emailMessage}</p>
@@ -189,11 +185,16 @@ const LoginForm = () => {
 
             <div className={classes.input}>
               <label htmlFor="nickname">nickname</label>
-              <input type="nickname" id="nickname" name="nickname" onChange={onNicknameHandler}/>
+              <input
+                type="nickname"
+                id="nickname"
+                name="nickname"
+                onChange={onNicknameHandler}
+              />
               <>
-              {nicknameMessage && (
-                <p className={classes.invalid}>{nicknameMessage}</p>
-              )}
+                {nicknameMessage && (
+                  <p className={classes.invalid}>{nicknameMessage}</p>
+                )}
               </>
             </div>
           </>
@@ -226,15 +227,15 @@ const LoginForm = () => {
           </div>
         )}
         <button className={classes.button}>
-          {isLogin ? '로그인' : '회원가입'}
+          {isLogin ? "로그인" : "회원가입"}
         </button>
         <Link
           className={classes.link}
-          to={`/${isLogin ? 'register/' : 'auth/login/'}`}
+          to={`/${isLogin ? "register/" : "auth/login/"}`}
           onClick={resetValue}
           type="button"
         >
-          {isLogin ? '회원가입' : '로그인'}
+          {isLogin ? "회원가입" : "로그인"}
         </Link>
       </Form>
     </>

@@ -26,12 +26,21 @@ if (path !== '/user/login') {
     password: data.get('password'),
   };
 
+  let header = {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  }
+
+  let body = new URLSearchParams(authData)
+
+  if (path !== '/user/login') {
+    header["Content-Type"] = 'application/json'
+    body = JSON.stringify(authData)
+  }
+
   const response = await fetch('/api/user/login', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: new URLSearchParams(authData),
+    headers: header,
+    body: body,
   });
 
   if (response.status === 401 || response.status === 409) {

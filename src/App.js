@@ -4,7 +4,6 @@ import RootLayout from './pages/Root';
 import HomePage from './pages/Home';
 import ErrorPage from './pages/Error';
 import LoginPage, { action as loginAction } from './pages/Login';
-import CreatePage, { action as createAction } from './pages/Create';
 import CreateCompletePage from './pages/CreateComplete';
 import SettingPage from './pages/Setting';
 import { action as logoutAction } from './pages/Logout';
@@ -18,12 +17,12 @@ const router = createBrowserRouter([
     id: 'root',
     loader: tokenLoader,
     children: [
-      { path: '/', element: <HomePage /> },
+      { path: '/', element: <HomePage />},
       { path: '/user/Login', element: <LoginPage />, action: loginAction, loader: checkAuthLoader},
-      { path: '/user/create', element: <CreatePage />, action: createAction},
+      { path: '/user/create', element: <LoginPage />, action: loginAction},
       { path: '/user/create/complete', element: <CreateCompletePage /> },
       { path:  '/user/setting', element: <SettingPage />},
-      { path: '/auth/logout', action: logoutAction },
+      { path: '/user/logout', action: logoutAction },
     ],
   },
 ]);

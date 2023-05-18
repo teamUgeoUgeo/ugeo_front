@@ -14,12 +14,12 @@ function Header() {
                 <ul>
                     {!token && (
                     <li>
-                        <NavLink to="/auth/login/">Login</NavLink>
+                        <NavLink to="/user/login">Login</NavLink>
                     </li>
                     )}
                     {token && (
                     <li>
-                        <Form action="/auth/logout/" method="post">
+                        <Form action="/user/logout" method="post">
                             <button className={classes.logout}>Logout</button>
                         </Form>
                     </li>

@@ -4,12 +4,12 @@ import classes from './AuthForm.module.css';
 
 const LoginForm = () => {
   const currentPath = window.location.pathname;
-  const isLogin = currentPath === '/auth/login/';
+  const isLogin = currentPath === '/user/login';
 
   const data = useActionData();
   const formRef = useRef();
 
-  const isMoreThan4Length = function(value) {
+  const isMoreThan4Length = function (value) {
     return value.length >= 4;
   };
 
@@ -31,7 +31,7 @@ const LoginForm = () => {
     return true;
   };
 
-  const checkNickname= function (value) {
+  const checkNickname = function (value) {
     if (!islessThan8Length(value) && value) {
       setNicknameMessage('8자는 넘기지 마세요.');
       return false;
@@ -51,7 +51,7 @@ const LoginForm = () => {
   };
 
   const checkPasswordConfirm = function (value) {
-    if (password !== value  && value) {
+    if (password !== value && value) {
       setPasswordConfirmMessage('입력한 비밀번호와 다릅니다.');
       return false;
     }
@@ -81,13 +81,13 @@ const LoginForm = () => {
   const onEmailHandler = (event) => {
     const value = event.target.value;
     setEmail(value);
-  }
+  };
 
   const onNicknameHandler = (event) => {
     const value = event.target.value;
     setNickname(value);
     checkNickname(value);
-  }
+  };
 
   const onPasswordHandler = (event) => {
     const value = event.target.value;
@@ -102,39 +102,31 @@ const LoginForm = () => {
   };
 
   const onSubmitHandler = (event) => {
-
-    if (!isLogin){
-      !checkNickname(nickname) ||
-      !checkPasswordConfirm(passwordConfirm)
+    if (!isLogin) {
+      !checkNickname(nickname) || !checkPasswordConfirm(passwordConfirm)
         ? event.preventDefault()
         : '';
 
-        if (password !== passwordConfirm) {
-          setPasswordConfirmMessage('입력한 비밀번호와 다릅니다.');
-        }
+      if (password !== passwordConfirm) {
+        setPasswordConfirmMessage('입력한 비밀번호와 다릅니다.');
+      }
 
-        if(!email) setEmailMessage('email은 비어있으면 안됩니다.');
-        if(!nickname) setNicknameMessage('nickname은 비어있으면 안됩니다.');
-        if(!passwordConfirm) setPasswordConfirmMessage('passwordConfirm은 비어있으면 안됩니다.');
+      if (!username) setUsernameMessage('username은 비어있으면 안됩니다.');
+      if (!nickname) setNicknameMessage('nickname은 비어있으면 안됩니다.');
+      if (!passwordConfirm)
+        setPasswordConfirmMessage('passwordConfirm은 비어있으면 안됩니다.');
 
-        !email || !nickname || !passwordConfirm 
-        ? event.preventDefault()
-        : '';
+      !username || !nickname || !passwordConfirm ? event.preventDefault() : '';
     }
 
-    !checkUsername(username) ||
-    !checkPassword(password) 
+    !checkUsername(username) || !checkPassword(password)
       ? event.preventDefault()
       : '';
 
+    if (!email) setEmailMessage('email은 비어있으면 안됩니다.');
+    if (!password) setPasswordMessage('password은 비어있으면 안됩니다.');
 
-    if(!username) setUsernameMessage('username은 비어있으면 안됩니다.');
-    if(!password) setPasswordMessage('password은 비어있으면 안됩니다.');
-
-    !username || !password 
-    ? event.preventDefault()
-    : '';
-    
+    !email || !password ? event.preventDefault() : '';
   };
 
   const resetValue = () => {
@@ -145,7 +137,6 @@ const LoginForm = () => {
     setNicknameMessage('');
     setPasswordMessage('');
     setPasswordConfirmMessage('');
-  
   };
 
   return (
@@ -161,39 +152,45 @@ const LoginForm = () => {
         </h4>
 
         <div className={classes.input}>
-          <label htmlFor="username">username</label>
+          <label htmlFor="email">Email</label>
           <input
-            type="username"
-            id="username"
-            name="username"
-            onChange={onUsernameHandler}
+            type="email"
+            id="email"
+            name="email"
+            onChange={onEmailHandler}
           />
-          <>
-          {usernameMessage && (
-            <p className={classes.invalid}>{usernameMessage}</p>
+          {emailMessage && <p className={classes.invalid}>{emailMessage}</p>}
+          {data && data['detail'] && (
+            <p className={classes.invalid}>{data['detail']}</p>
           )}
-          </>
         </div>
+
         {!isLogin && (
           <>
             <div className={classes.input}>
-              <label htmlFor="email">Email</label>
-              <input type="email" id="email" name="email" onChange={onEmailHandler}/>
-              {data  && data ['email'] && (
-                <p className={classes.invalid}>{data['email']}</p>
-              )}
-              {emailMessage && (
-                <p className={classes.invalid}>{emailMessage}</p>
+              <label htmlFor="username">username</label>
+              <input
+                type="username"
+                id="username"
+                name="username"
+                onChange={onUsernameHandler}
+              />
+              {usernameMessage && (
+                <p className={classes.invalid}>{usernameMessage}</p>
               )}
             </div>
-
             <div className={classes.input}>
               <label htmlFor="nickname">nickname</label>
-              <input type="nickname" id="nickname" name="nickname" onChange={onNicknameHandler}/>
+              <input
+                type="nickname"
+                id="nickname"
+                name="nickname"
+                onChange={onNicknameHandler}
+              />
               <>
-              {nicknameMessage && (
-                <p className={classes.invalid}>{nicknameMessage}</p>
-              )}
+                {nicknameMessage && (
+                  <p className={classes.invalid}>{nicknameMessage}</p>
+                )}
               </>
             </div>
           </>
@@ -230,7 +227,7 @@ const LoginForm = () => {
         </button>
         <Link
           className={classes.link}
-          to={`/${isLogin ? 'register/' : 'auth/login/'}`}
+          to={`/${isLogin ? 'user/create' : 'user/login'}`}
           onClick={resetValue}
           type="button"
         >

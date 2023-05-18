@@ -9,7 +9,7 @@ const Sidebar = () => {
             <nav>
                 <ul>
                     <li>
-                        <Link to="/setting/">설정</Link>
+                        <Link to="/user/setting">설정</Link>
                     </li>
                 </ul>
             </nav>

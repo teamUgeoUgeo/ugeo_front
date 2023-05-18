@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom'
-import classes from './Sidebar.module.css';
-import UserInfo from './UserInfo';
+import { Link } from "react-router-dom";
+import classes from "./Sidebar.module.css";
+import UserInfo from "./UserInfo";
 
 const Sidebar = () => {
     return (

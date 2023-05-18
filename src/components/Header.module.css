@@ -1,23 +1,23 @@
 .header {
-    position: fixed;
-    width: 100%;
-    top: 0;
+  position: fixed;
+  width: 100%;
+  top: 0;
 
-    background: #fff;
-    border-bottom: 1px solid #ddd;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
 
-    height: 3.75rem;
+  height: 3.75rem;
 
-    display: flex;
-    align-content: center;
-    justify-content: space-between;
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
 }
 .headerwrap {
-    padding: 0 1.875rem;
+  padding: 0 1.875rem;
 }
 .logout {
-    background: transparent;
-    border: none;
-    font-size: .875rem;
-    color: unset;
+  background: transparent;
+  border: none;
+  font-size: 0.875rem;
+  color: unset;
 }

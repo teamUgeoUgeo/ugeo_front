@@ -1,44 +1,44 @@
-.logout  {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .logout .content {
     min-width: 30rem;
     width: 30%;
 
-    padding: 3.125rem 1.875rem;
-    margin: 1.875rem auto;
-    border-radius: 20px;
-    background: #fff;
-    border: 1px solid #ddd;
+  padding: 3.125rem 1.875rem;
+  margin: 1.875rem auto;
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid #ddd;
 
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
 }
 .login .content {
-    border-radius: 0;
-    display: flex;
-    flex-flow: row;
+  border-radius: 0;
+  display: flex;
+  flex-flow: row;
 
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
 }
 .login .section {
-    background: #f7f7f7;
-    width: 70%;
-    padding: 1.875rem;
+  background: #f7f7f7;
+  width: 70%;
+  padding: 1.875rem;
 }
 .content h1 {
-    font-size: 1.5rem;
-    margin: 0 0 .9375rem;
+  font-size: 1.5rem;
+  margin: 0 0 0.9375rem;
 }
 .content p {
-    line-height: 1.5;
+  line-height: 1.5;
 }
 .link {
-    margin: 1.25rem 0 0;
+  margin: 1.25rem 0 0;
 }

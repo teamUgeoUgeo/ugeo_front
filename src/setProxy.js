@@ -5,7 +5,7 @@ module.exports = app => {
     createProxyMiddleware(
       "/api",
       {
-        target: "https://ugeo.sigae.kim/",
+        target: "https://ugeo-back.sigae.kim",
         changeOrigin: true,
       }
     )

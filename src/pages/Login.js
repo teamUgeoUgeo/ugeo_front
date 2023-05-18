@@ -16,8 +16,9 @@ export default LoginPage;
 
 export async function action({ request }) {
 const path = window.location.pathname;
+const mode = path || '/user/login'
 
-if (path !== '/user/login') {
+if (mode !== '/user/login' && mode !== '/user/create') {
     throw json({ message: '지원하지 않는 모드 입니다.' }, { status: 422 });
   }
 
@@ -29,7 +30,12 @@ if (path !== '/user/login') {
   const data = await request.formData();
   const authData = {
     username: data.get('email'),
-    password: data.get('password')
+    password: hashPassword(data.get('password'))
+  };
+
+  const additionalData = {
+    email: data.get('email'),
+    nickname: data.get('nickname')
   };
 
   let header = {
@@ -38,15 +44,12 @@ if (path !== '/user/login') {
 
   let body = new URLSearchParams(authData)
 
-  if (path !== '/user/login') {
+  if (mode !== '/user/login') {
     header["Content-Type"] = 'application/json'
-    body = JSON.stringify(authData)
-
-    authData.email = data.get('email')
-    authData.nickname = data.get('nickname')
+    body = JSON.stringify({...authData, ...additionalData})
   }
 
-  const response = await fetch('/api/user/login', {
+  const response = await fetch('/api' + mode, {
     method: 'POST',
     headers: header,
     body: body,
@@ -59,11 +62,17 @@ if (path !== '/user/login') {
   if (!response.ok) {
     throw json({ message: '사용자 인증 불가.' }, { status: 500 });
   }
+  
+  if (mode !== '/user/login') {
+    return redirect('/user/create/complete');
 
-  const resData = await response.json();
-  const token = resData.access_token;
+  } else {
+    const resData = await response.json();
+    const token = resData.access_token;
+  
+    localStorage.setItem('token', token);
+  
+    return redirect('/');
+  }
 
-  localStorage.setItem('token', token);
-
-  return redirect('/');
 }

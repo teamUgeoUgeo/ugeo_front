@@ -4,7 +4,7 @@ import classes from "./AuthForm.module.css";
 
 const LoginForm = () => {
   const currentPath = window.location.pathname;
-  const isLogin = currentPath === "/auth/login/";
+  const isLogin = currentPath === '/user/login';
 
   const data = useActionData();
   const formRef = useRef();
@@ -123,10 +123,10 @@ const LoginForm = () => {
       ? event.preventDefault()
       : "";
 
-    if (!username) setUsernameMessage("username은 비어있으면 안됩니다.");
-    if (!password) setPasswordMessage("password은 비어있으면 안됩니다.");
+    if (!email) setEmailMessage('email은 비어있으면 안됩니다.');
+    if (!password) setPasswordMessage('password은 비어있으면 안됩니다.');
 
-    !username || !password ? event.preventDefault() : "";
+    !email || !password ? event.preventDefault() : '';
   };
 
   const resetValue = () => {
@@ -152,37 +152,33 @@ const LoginForm = () => {
         </h4>
 
         <div className={classes.input}>
-          <label htmlFor="username">username</label>
+          <label htmlFor="email">Email</label>
           <input
-            type="username"
-            id="username"
-            name="username"
-            onChange={onUsernameHandler}
+            type="email"
+            id="email"
+            name="email"
+            onChange={onEmailHandler}
           />
-          <>
-            {usernameMessage && (
-              <p className={classes.invalid}>{usernameMessage}</p>
-            )}
-          </>
+          {emailMessage && <p className={classes.invalid}>{emailMessage}</p>}
+          {data && data['detail'] && (
+            <p className={classes.invalid}>{data['detail']}</p>
+          )}
         </div>
+
         {!isLogin && (
           <>
             <div className={classes.input}>
-              <label htmlFor="email">Email</label>
+              <label htmlFor="username">username</label>
               <input
-                type="email"
-                id="email"
-                name="email"
-                onChange={onEmailHandler}
+                type="username"
+                id="username"
+                name="username"
+                onChange={onUsernameHandler}
               />
-              {data && data["email"] && (
-                <p className={classes.invalid}>{data["email"]}</p>
-              )}
-              {emailMessage && (
-                <p className={classes.invalid}>{emailMessage}</p>
+              {usernameMessage && (
+                <p className={classes.invalid}>{usernameMessage}</p>
               )}
             </div>
-
             <div className={classes.input}>
               <label htmlFor="nickname">nickname</label>
               <input
@@ -231,7 +227,7 @@ const LoginForm = () => {
         </button>
         <Link
           className={classes.link}
-          to={`/${isLogin ? "register/" : "auth/login/"}`}
+          to={`/${isLogin ? 'user/create' : 'user/login'}`}
           onClick={resetValue}
           type="button"
         >

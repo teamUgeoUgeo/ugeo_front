@@ -14,8 +14,13 @@ module.exports = {
     static: {
       directory: path.join(__dirname, 'dist'),
     },
-    liveReload: true,
-    open: true,
+    proxy: {
+      '/api': {
+        target: 'https://ugeo-back.sigae.kim', 
+        changeOrigin: true,  
+      }
+    },
+    historyApiFallback: true,
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.css'],

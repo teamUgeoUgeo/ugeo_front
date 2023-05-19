@@ -50,7 +50,7 @@ main {
 .p-1 {
   color: #2eab64;
 }
-main button {
+main button.default {
   background-color: #2eab64;
   color: #fff;
   border: none;
@@ -60,7 +60,7 @@ main button {
   border-radius: 10px;
   transition: 0.2s;
 }
-main button:hover,
+main button.default:hover,
 main .link:hover {
   background-color: #37b76e;
   color: #fff;
@@ -80,4 +80,19 @@ a.link {
 
   max-width: 75rem;
   margin: 0 auto;
+}
+.gray {
+  background: #f7f7f7;
+}
+.blue {
+  background: #c5deff
+}
+.brown {
+  background: #fbd2a9
+}
+.green {
+  background: #c4ec9b
+}
+.yellow {
+  background: #fdec96
 }

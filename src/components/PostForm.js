@@ -8,11 +8,9 @@ const PostForm = () => {
       <textarea
         name="content"
         id=""
-        cols="30"
-        rows="10"
         placeholder="어디다 썼나요?"
       ></textarea>
-      <button className={classes.button} type="button">
+      <button className={`${classes.button} default`} type="button">
         등록하기
       </button>
     </Form>

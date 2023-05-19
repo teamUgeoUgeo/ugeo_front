@@ -9,9 +9,52 @@
   /* min-height: 100vh; */
 }
 
-.list li {
+.list > li {
   border-radius: 10px;
-  padding: 1.875rem;
+  padding: .9375rem 1.25rem;
   background: #fff;
-  /* border-bottom: 1px solid #ddd; */
+  width: 100%;
+}
+
+.top {
+  display: flex;
+  flex-flow: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  position: relative;
+}
+
+.amount {
+  padding: .3125rem .625rem;
+  border-radius: 5px;
+  background: #eee;
+  margin: 0 0 .625rem;
+}
+
+.more {
+  cursor: pointer;
+}
+
+.more {
+  cursor: pointer;
+}
+
+.edit {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: .3125rem .625rem;
+  border-radius: 5px;
+
+  display: flex;
+  flex-flow: row;
+  gap: .625rem;
+}
+
+.edit button {
+  cursor: pointer;
+  border: none;
+  background: transparent;
 }

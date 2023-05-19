@@ -1,6 +1,7 @@
 .sidemenu {
   padding: 1.875rem;
   width: 30%;
+  min-height: calc(100vh - 3.75rem);
   border-right: 1px solid #ddd;
 
   display: flex;

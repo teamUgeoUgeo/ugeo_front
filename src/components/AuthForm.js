@@ -222,7 +222,7 @@ const LoginForm = () => {
             )}
           </div>
         )}
-        <button className={classes.button}>
+        <button className={`${classes.button} default`}>
           {isLogin ? "로그인" : "회원가입"}
         </button>
         <Link

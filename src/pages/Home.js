@@ -17,7 +17,6 @@ const HomePage = () => {
         },
       });
       const data = await response.json();
-      console.log(data);
       setData(data);
   }
 
@@ -44,12 +43,10 @@ const HomePage = () => {
     return (
       <PageContent>
         <Sidebar></Sidebar>
-        <PostList></PostList>
+        <PostList datas={data}></PostList>
       </PageContent>
     );
   }
-
-
 };
 
 export default HomePage;

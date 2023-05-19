@@ -1,0 +1,22 @@
+# This is a basic workflow to help you get started with Actions
+
+name: buildable check
+
+# Controls when the workflow will run
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code.   # 레포지토리 체크아웃
+        uses: actions/checkout@master
+
+      - name: Install Dependencies    # 의존 파일 설치
+        run: npm install
+
+
+      - name: Build                   # React Build
+        run: npm run build

@@ -4,7 +4,7 @@ import classes from "./AuthForm.module.css";
 
 const LoginForm = () => {
   const currentPath = window.location.pathname;
-  const isLogin = currentPath === '/user/login';
+  const isLogin = currentPath === "/user/login";
 
   const data = useActionData();
   const formRef = useRef();
@@ -123,10 +123,10 @@ const LoginForm = () => {
       ? event.preventDefault()
       : "";
 
-    if (!email) setEmailMessage('email은 비어있으면 안됩니다.');
-    if (!password) setPasswordMessage('password은 비어있으면 안됩니다.');
+    if (!email) setEmailMessage("email은 비어있으면 안됩니다.");
+    if (!password) setPasswordMessage("password은 비어있으면 안됩니다.");
 
-    !email || !password ? event.preventDefault() : '';
+    !email || !password ? event.preventDefault() : "";
   };
 
   const resetValue = () => {
@@ -160,8 +160,8 @@ const LoginForm = () => {
             onChange={onEmailHandler}
           />
           {emailMessage && <p className={classes.invalid}>{emailMessage}</p>}
-          {data && data['detail'] && (
-            <p className={classes.invalid}>{data['detail']}</p>
+          {data && data["detail"] && (
+            <p className={classes.invalid}>{data["detail"]}</p>
           )}
         </div>
 
@@ -227,7 +227,7 @@ const LoginForm = () => {
         </button>
         <Link
           className={classes.link}
-          to={`/${isLogin ? 'user/create' : 'user/login'}`}
+          to={`/${isLogin ? "user/create" : "user/login"}`}
           onClick={resetValue}
           type="button"
         >

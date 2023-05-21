@@ -11,7 +11,7 @@ const SettingPage = () => {
       {token && (
         <>
           <Sidebar></Sidebar>
-          <section class={classes.section}>
+          <section className={classes.section}>
             <nav>
               <ul>
                 <li>

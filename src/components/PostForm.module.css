@@ -18,11 +18,11 @@
   border-radius: 0.625rem;
 }
 
-input[name="price"] {
+input[name="amount"] {
   background: #f6f6f6;
 }
 
-textarea[name="content"] {
+textarea[name="detail"] {
   width: 100%;
   overflow: auto;
   padding: 0.9375rem;

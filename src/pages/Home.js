@@ -1,4 +1,4 @@
-import { Link, useRouteLoaderData, useActionData } from "react-router-dom";
+import { Link, useRouteLoaderData, useActionData, redirect } from "react-router-dom";
 import { useEffect, useState } from "react";
 import PageContent from "../components/PageContent";
 import Sidebar from "../components/Sidebar";
@@ -23,15 +23,12 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    if (token) {
+    if (token || newData) {
       fetchData(token);
     } else {
       setData(null);
     }
 
-    if (newData) {
-      setData(newData);
-    }
   }, [token, newData]);
 
   if (!data) {
@@ -76,18 +73,17 @@ export async function action({ request }) {
 
   let body = JSON.stringify(postData);
 
-  const writeRes = await fetch("/api/article/", {
+  const response = await fetch("/api/article/", {
     method: "POST",
     headers: header,
     body: body,
   });
 
-  const listRes = await fetch("/api/article/", {
-    method: "GET",
-    headers: header,
-  });
+  if (response.ok) {
+    return true;
+  } else {
+    console.log(response)
+  }
 
-  const newData = await listRes.json();
-
-  return newData;
+  return redirect("/");
 }

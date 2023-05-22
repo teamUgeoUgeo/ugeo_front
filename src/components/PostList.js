@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { useState, useRef, useEffect } from "react";
 import classes from "./PostList.module.css";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -83,6 +84,10 @@ const PostList = (props) => {
       })}
     </ul>
   );
+};
+
+PostList.propTypes = {
+  datas: PropTypes.array.isRequired,
 };
 
 export default PostList;

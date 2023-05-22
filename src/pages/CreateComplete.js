@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import PageContent from "../components/PageContent";
 import classes from "../components/PageContent.module.css";

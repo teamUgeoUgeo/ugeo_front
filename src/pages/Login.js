@@ -1,3 +1,4 @@
+import React from "react";
 import { json, redirect } from "react-router-dom";
 import PageContent from "../components/PageContent";
 import CryptoJS from "crypto-js";
@@ -15,13 +16,6 @@ const LoginPage = () => {
 export default LoginPage;
 
 export async function action({ request }) {
-  const path = window.location.pathname;
-  const mode = path || "/user/login";
-
-  if (mode !== "/user/login" && mode !== "/user/create") {
-    throw json({ message: "지원하지 않는 모드 입니다." }, { status: 422 });
-  }
-
   function hashPassword(password) {
     const hashedPassword = CryptoJS.SHA3(password).toString();
     return hashedPassword;
@@ -29,41 +23,48 @@ export async function action({ request }) {
 
   const data = await request.formData();
   const authData = {
-    username: data.get("email"),
+    email: data.get("email"),
     password: hashPassword(data.get("password")),
   };
 
   const additionalData = {
-    email: data.get("email"),
+    username: data.get("username"),
     nickname: data.get("nickname"),
   };
 
   let header = {
-    "Content-Type": "application/x-www-form-urlencoded",
+    "Content-Type": "application/json",
   };
 
-  let body = new URLSearchParams(authData);
+  let body = authData;
 
-  if (mode !== "/user/login") {
-    header["Content-Type"] = "application/json";
-    body = JSON.stringify({ ...authData, ...additionalData });
+  const loginPath = `/user/login?email=${authData.email}&password=${authData.password}`;
+  const path = window.location.pathname;
+  let mode = "/user/create";
+
+  if (path !== "/user/create") {
+    mode = loginPath;
+  }
+
+  if (mode !== loginPath && mode !== "/user/create") {
+    throw json({ message: "지원하지 않는 모드 입니다." }, { status: 422 });
+  }
+
+  if (mode !== loginPath) {
+    body = { ...authData, ...additionalData };
   }
 
   const response = await fetch("/api" + mode, {
     method: "POST",
     headers: header,
-    body: body,
+    body: JSON.stringify(body),
   });
 
-  if (response.status === 401 || response.status === 409) {
+  if (!response.ok) {
     return response;
   }
 
-  if (!response.ok) {
-    throw json({ message: "사용자 인증 불가." }, { status: 500 });
-  }
-
-  if (mode !== "/user/login") {
+  if (mode !== loginPath) {
     return redirect("/user/create/complete");
   } else {
     const resData = await response.json();

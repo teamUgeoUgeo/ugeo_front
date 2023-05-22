@@ -1,13 +1,19 @@
+import React from "react";
 import { useRef, useState } from "react";
 import { Form, Link, useActionData } from "react-router-dom";
 import classes from "./AuthForm.module.css";
 
 const LoginForm = () => {
   const currentPath = window.location.pathname;
-  const isLogin = currentPath === "/user/login";
+  const isLogin = currentPath == "/user/login";
 
   const data = useActionData();
   const formRef = useRef();
+
+  const isEmail = function (value) {
+    const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return pattern.test(value);
+  };
 
   const isMoreThan4Length = function (value) {
     return value.length >= 4;
@@ -19,6 +25,16 @@ const LoginForm = () => {
 
   const islessThan16Length = function (value) {
     return value.length < 17;
+  };
+
+  const checkEmail = function (value) {
+    if (!isEmail(value) && value) {
+      setEmailMessage("정확한 이메일을 입력해 주세요.");
+      return false;
+    }
+
+    setEmailMessage("");
+    return true;
   };
 
   const checkUsername = function (value) {
@@ -81,6 +97,7 @@ const LoginForm = () => {
   const onEmailHandler = (event) => {
     const value = event.target.value;
     setEmail(value);
+    checkEmail(value);
   };
 
   const onNicknameHandler = (event) => {
@@ -103,7 +120,9 @@ const LoginForm = () => {
 
   const onSubmitHandler = (event) => {
     if (!isLogin) {
-      !checkNickname(nickname) || !checkPasswordConfirm(passwordConfirm)
+      !checkUsername(username) ||
+      !checkNickname(nickname) ||
+      !checkPasswordConfirm(passwordConfirm)
         ? event.preventDefault()
         : "";
 
@@ -111,15 +130,14 @@ const LoginForm = () => {
         setPasswordConfirmMessage("입력한 비밀번호와 다릅니다.");
       }
 
-      if (!email) setEmailMessage("email은 비어있으면 안됩니다.");
+      if (!username) setUsernameMessage("username은 비어있으면 안됩니다.");
       if (!nickname) setNicknameMessage("nickname은 비어있으면 안됩니다.");
       if (!passwordConfirm)
         setPasswordConfirmMessage("passwordConfirm은 비어있으면 안됩니다.");
 
-      !email || !nickname || !passwordConfirm ? event.preventDefault() : "";
+      !username || !nickname || !passwordConfirm ? event.preventDefault() : "";
     }
-
-    !checkUsername(username) || !checkPassword(password)
+    !checkEmail(email) || !checkPassword(password)
       ? event.preventDefault()
       : "";
 
@@ -131,6 +149,12 @@ const LoginForm = () => {
 
   const resetValue = () => {
     formRef.current.reset();
+
+    setUsername("");
+    setEmail("");
+    setNickname("");
+    setPassword("");
+    setPasswordConfirm("");
 
     setUsernameMessage("");
     setEmailMessage("");
@@ -159,10 +183,16 @@ const LoginForm = () => {
             name="email"
             onChange={onEmailHandler}
           />
-          {emailMessage && <p className={classes.invalid}>{emailMessage}</p>}
-          {data && data["detail"] && (
-            <p className={classes.invalid}>{data["detail"]}</p>
+          {data && isLogin && (
+            <p className={classes.invalid}>
+              {typeof data.detail === "string"
+                ? data.detail
+                : Array.isArray(data.detail) && data.detail.length >= 1
+                ? data.detail[0].msg
+                : ""}
+            </p>
           )}
+          {emailMessage && <p className={classes.invalid}>{emailMessage}</p>}
         </div>
 
         {!isLogin && (
@@ -178,6 +208,15 @@ const LoginForm = () => {
               {usernameMessage && (
                 <p className={classes.invalid}>{usernameMessage}</p>
               )}
+              {data && (
+                <p className={classes.invalid}>
+                  {typeof data.detail === "string"
+                    ? data.detail
+                    : Array.isArray(data.detail) && data.detail.length >= 1
+                    ? data.detail[0].msg
+                    : ""}
+                </p>
+              )}
             </div>
             <div className={classes.input}>
               <label htmlFor="nickname">nickname</label>
@@ -187,11 +226,9 @@ const LoginForm = () => {
                 name="nickname"
                 onChange={onNicknameHandler}
               />
-              <>
-                {nicknameMessage && (
-                  <p className={classes.invalid}>{nicknameMessage}</p>
-                )}
-              </>
+              {nicknameMessage && (
+                <p className={classes.invalid}>{nicknameMessage}</p>
+              )}
             </div>
           </>
         )}

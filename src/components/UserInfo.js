@@ -1,3 +1,4 @@
+import React from "react";
 import classes from "./UserInfo.module.css";
 
 const UserInfo = () => {

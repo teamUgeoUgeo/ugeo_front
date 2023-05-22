@@ -1,10 +1,10 @@
-const createProxyMiddleware = require("http-proxy-middleware");
+import { createProxyMiddleware } from "http-proxy-middleware";
 
-module.exports = (app) => {
+export default function (app) {
   app.use(
     createProxyMiddleware("/api", {
       target: "https://ugeo-back.sigae.kim",
       changeOrigin: true,
     })
   );
-};
+}

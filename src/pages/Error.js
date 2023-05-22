@@ -1,3 +1,4 @@
+import React from "react";
 import PageContent from "../components/PageContent";
 
 const ErrorPage = () => {

@@ -14,7 +14,6 @@ export function getAuthToken() {
   if (!token) {
     return null;
   }
-
   const tokenDuration = getTokenDuration();
 
   if (tokenDuration < 0) {

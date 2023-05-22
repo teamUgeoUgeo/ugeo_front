@@ -1,14 +1,19 @@
-import React from "react";
-import { useRef, useState } from "react";
-import { Form, Link, useActionData } from "react-router-dom";
-import classes from "./AuthForm.module.css";
+import React from 'react';
+import { useRef, useState } from 'react';
+import { Form, Link, useActionData } from 'react-router-dom';
+import classes from './AuthForm.module.css';
 
 const LoginForm = () => {
   const currentPath = window.location.pathname;
-  const isLogin = currentPath == "/user/login";
+  const isLogin = currentPath == '/user/login';
 
   const data = useActionData();
   const formRef = useRef();
+
+  const isEmail = function (value) {
+    const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return pattern.test(value);
+  };
 
   const isMoreThan4Length = function (value) {
     return value.length >= 4;
@@ -22,56 +27,66 @@ const LoginForm = () => {
     return value.length < 17;
   };
 
-  const checkUsername = function (value) {
-    if (!isMoreThan4Length(value) && value) {
-      setUsernameMessage("4자 이상의 id를 입력해주세요.");
+  const checkEmail = function (value) {
+    if (!isEmail(value) && value) {
+      setEmailMessage('정확한 이메일을 입력해 주세요.');
       return false;
     }
 
-    setUsernameMessage("");
+    setEmailMessage('');
+    return true;
+  };
+
+  const checkUsername = function (value) {
+    if (!isMoreThan4Length(value) && value) {
+      setUsernameMessage('4자 이상의 id를 입력해주세요.');
+      return false;
+    }
+
+    setUsernameMessage('');
     return true;
   };
 
   const checkNickname = function (value) {
     if (!islessThan8Length(value) && value) {
-      setNicknameMessage("8자는 넘기지 마세요.");
+      setNicknameMessage('8자는 넘기지 마세요.');
       return false;
     }
 
-    setNicknameMessage("");
+    setNicknameMessage('');
     return true;
   };
 
   const checkPassword = function (value) {
     if (!islessThan16Length(value) && value) {
-      setPasswordMessage("16자는 넘기지 마세요.");
+      setPasswordMessage('16자는 넘기지 마세요.');
       return false;
     }
-    setPasswordMessage("");
+    setPasswordMessage('');
     return true;
   };
 
   const checkPasswordConfirm = function (value) {
     if (password !== value && value) {
-      setPasswordConfirmMessage("입력한 비밀번호와 다릅니다.");
+      setPasswordConfirmMessage('입력한 비밀번호와 다릅니다.');
       return false;
     }
 
-    setPasswordConfirmMessage("");
+    setPasswordConfirmMessage('');
     return true;
   };
 
-  const [username, setUsername] = useState("");
-  const [nickname, setNickname] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [username, setUsername] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
 
-  const [usernameMessage, setUsernameMessage] = useState("");
-  const [nicknameMessage, setNicknameMessage] = useState("");
-  const [emailMessage, setEmailMessage] = useState("");
-  const [passwordMessage, setPasswordMessage] = useState("");
-  const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("");
+  const [usernameMessage, setUsernameMessage] = useState('');
+  const [nicknameMessage, setNicknameMessage] = useState('');
+  const [emailMessage, setEmailMessage] = useState('');
+  const [passwordMessage, setPasswordMessage] = useState('');
+  const [passwordConfirmMessage, setPasswordConfirmMessage] = useState('');
 
   const onUsernameHandler = (event) => {
     const value = event.target.value;
@@ -82,6 +97,7 @@ const LoginForm = () => {
   const onEmailHandler = (event) => {
     const value = event.target.value;
     setEmail(value);
+    checkEmail(value);
   };
 
   const onNicknameHandler = (event) => {
@@ -108,35 +124,43 @@ const LoginForm = () => {
       !checkNickname(nickname) ||
       !checkPasswordConfirm(passwordConfirm)
         ? event.preventDefault()
-        : "";
+        : '';
 
       if (password !== passwordConfirm) {
-        setPasswordConfirmMessage("입력한 비밀번호와 다릅니다.");
+        setPasswordConfirmMessage('입력한 비밀번호와 다릅니다.');
       }
 
-      if (!username) setUsernameMessage("username은 비어있으면 안됩니다.");
-      if (!nickname) setNicknameMessage("nickname은 비어있으면 안됩니다.");
+      if (!username) setUsernameMessage('username은 비어있으면 안됩니다.');
+      if (!nickname) setNicknameMessage('nickname은 비어있으면 안됩니다.');
       if (!passwordConfirm)
-        setPasswordConfirmMessage("passwordConfirm은 비어있으면 안됩니다.");
+        setPasswordConfirmMessage('passwordConfirm은 비어있으면 안됩니다.');
 
-      !username || !nickname || !passwordConfirm ? event.preventDefault() : "";
+      !username || !nickname || !passwordConfirm ? event.preventDefault() : '';
     }
-    !checkPassword(password) ? event.preventDefault() : "";
+    !checkEmail(email) || !checkPassword(password)
+      ? event.preventDefault()
+      : '';
 
-    if (!email) setEmailMessage("email은 비어있으면 안됩니다.");
-    if (!password) setPasswordMessage("password은 비어있으면 안됩니다.");
+    if (!email) setEmailMessage('email은 비어있으면 안됩니다.');
+    if (!password) setPasswordMessage('password은 비어있으면 안됩니다.');
 
-    !email || !password ? event.preventDefault() : "";
+    !email || !password ? event.preventDefault() : '';
   };
 
   const resetValue = () => {
     formRef.current.reset();
 
-    setUsernameMessage("");
-    setEmailMessage("");
-    setNicknameMessage("");
-    setPasswordMessage("");
-    setPasswordConfirmMessage("");
+    setUsername('');
+    setEmail('');
+    setNickname('');
+    setPassword('');
+    setPasswordConfirm('');
+
+    setUsernameMessage('');
+    setEmailMessage('');
+    setNicknameMessage('');
+    setPasswordMessage('');
+    setPasswordConfirmMessage('');
   };
 
   return (
@@ -147,8 +171,8 @@ const LoginForm = () => {
         ref={formRef}
         onSubmit={onSubmitHandler}
       >
-        <h4 className={classes.title + " p-1"}>
-          {isLogin ? "Login" : "Sign up"}
+        <h4 className={classes.title + ' p-1'}>
+          {isLogin ? 'Login' : 'Sign up'}
         </h4>
 
         <div className={classes.input}>
@@ -161,11 +185,11 @@ const LoginForm = () => {
           />
           {data && isLogin && (
             <p className={classes.invalid}>
-              {typeof data.detail === "string"
+              {typeof data.detail === 'string'
                 ? data.detail
                 : Array.isArray(data.detail) && data.detail.length >= 1
                 ? data.detail[0].msg
-                : ""}
+                : ''}
             </p>
           )}
           {emailMessage && <p className={classes.invalid}>{emailMessage}</p>}
@@ -186,11 +210,11 @@ const LoginForm = () => {
               )}
               {data && (
                 <p className={classes.invalid}>
-                  {typeof data.detail === "string"
+                  {typeof data.detail === 'string'
                     ? data.detail
                     : Array.isArray(data.detail) && data.detail.length >= 1
                     ? data.detail[0].msg
-                    : ""}
+                    : ''}
                 </p>
               )}
             </div>
@@ -236,15 +260,15 @@ const LoginForm = () => {
           </div>
         )}
         <button className={`${classes.button} default`}>
-          {isLogin ? "로그인" : "회원가입"}
+          {isLogin ? '로그인' : '회원가입'}
         </button>
         <Link
           className={classes.link}
-          to={`/${isLogin ? "user/create" : "user/login"}`}
+          to={`/${isLogin ? 'user/create' : 'user/login'}`}
           onClick={resetValue}
           type="button"
         >
-          {isLogin ? "회원가입" : "로그인"}
+          {isLogin ? '회원가입' : '로그인'}
         </Link>
       </Form>
     </>

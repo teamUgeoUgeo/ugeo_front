@@ -1,3 +1,4 @@
+import React from "react";
 import { json, redirect } from "react-router-dom";
 import PageContent from "../components/PageContent";
 import CryptoJS from "crypto-js";
@@ -15,7 +16,6 @@ const LoginPage = () => {
 export default LoginPage;
 
 export async function action({ request }) {
-
   function hashPassword(password) {
     const hashedPassword = CryptoJS.SHA3(password).toString();
     return hashedPassword;
@@ -36,14 +36,14 @@ export async function action({ request }) {
     "Content-Type": "application/json",
   };
 
-  let body = authData
+  let body = authData;
 
-  const loginPath = `/user/login?email=${authData.email}&password=${authData.password}`
+  const loginPath = `/user/login?email=${authData.email}&password=${authData.password}`;
   const path = window.location.pathname;
-  let mode = "/user/create" 
+  let mode = "/user/create";
 
-  if(path !== "/user/create" ){
-    mode = loginPath
+  if (path !== "/user/create") {
+    mode = loginPath;
   }
 
   if (mode !== loginPath && mode !== "/user/create") {

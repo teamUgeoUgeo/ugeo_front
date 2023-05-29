@@ -1,7 +1,7 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./pages/Root";
-import HomePage, { action as writeAction } from "./pages/Home";
+import HomePage from "./pages/Home";
 import ErrorPage from "./pages/Error";
 import LoginPage, { action as loginAction } from "./pages/Login";
 import CreateCompletePage from "./pages/CreateComplete";
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
     id: "root",
     loader: tokenLoader,
     children: [
-      { path: "/", element: <HomePage />, action: writeAction },
+      { path: "/", element: <HomePage /> },
       {
         path: "/user/Login",
         element: <LoginPage />,
@@ -28,6 +28,7 @@ const router = createBrowserRouter([
       { path: "/user/create/complete", element: <CreateCompletePage /> },
       { path: "/user/setting", element: <SettingPage /> },
       { path: "/user/logout", action: logoutAction },
+      { path: "*", element: <ErrorPage /> },
     ],
   },
 ]);

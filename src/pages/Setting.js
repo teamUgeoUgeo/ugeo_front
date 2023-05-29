@@ -10,7 +10,7 @@ const SettingPage = () => {
   return (
     <PageContent>
       {token && (
-        <>
+        <div clessName={`${classes.login} max-width`}>
           <Sidebar></Sidebar>
           <section className={classes.section}>
             <nav>
@@ -24,7 +24,7 @@ const SettingPage = () => {
               </ul>
             </nav>
           </section>
-        </>
+        </div>
       )}
     </PageContent>
   );

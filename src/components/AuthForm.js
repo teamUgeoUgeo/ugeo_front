@@ -49,7 +49,7 @@ const LoginForm = () => {
 
   const checkNickname = function (value) {
     if (!islessThan8Length(value) && value) {
-      setNicknameMessage("8자는 넘기지 마세요.");
+      setNicknameMessage("8자 이하로 입력해 주세요.");
       return false;
     }
 
@@ -59,7 +59,7 @@ const LoginForm = () => {
 
   const checkPassword = function (value) {
     if (!islessThan16Length(value) && value) {
-      setPasswordMessage("16자는 넘기지 마세요.");
+      setPasswordMessage("16자 이하로 입력해 주세요.");
       return false;
     }
     setPasswordMessage("");
@@ -130,10 +130,10 @@ const LoginForm = () => {
         setPasswordConfirmMessage("입력한 비밀번호와 다릅니다.");
       }
 
-      if (!username) setUsernameMessage("username은 비어있으면 안됩니다.");
-      if (!nickname) setNicknameMessage("nickname은 비어있으면 안됩니다.");
+      if (!username) setUsernameMessage("사용자 아이디는 비어있으면 안됩니다.");
+      if (!nickname) setNicknameMessage("닉네임은 비어있으면 안됩니다.");
       if (!passwordConfirm)
-        setPasswordConfirmMessage("passwordConfirm은 비어있으면 안됩니다.");
+        setPasswordConfirmMessage("비밀번호 확인은 비어있으면 안됩니다.");
 
       !username || !nickname || !passwordConfirm ? event.preventDefault() : "";
     }
@@ -141,8 +141,8 @@ const LoginForm = () => {
       ? event.preventDefault()
       : "";
 
-    if (!email) setEmailMessage("email은 비어있으면 안됩니다.");
-    if (!password) setPasswordMessage("password은 비어있으면 안됩니다.");
+    if (!email) setEmailMessage("이메일은 비어있으면 안됩니다.");
+    if (!password) setPasswordMessage("비밀번호는 비어있으면 안됩니다.");
 
     !email || !password ? event.preventDefault() : "";
   };
@@ -172,13 +172,13 @@ const LoginForm = () => {
         onSubmit={onSubmitHandler}
       >
         <h4 className={classes.title + " p-1"}>
-          {isLogin ? "Login" : "Sign up"}
+          {isLogin ? "로그인" : "회원가입"}
         </h4>
 
         <div className={classes.input}>
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">이메일</label>
           <input
-            type="email"
+            type="text"
             id="email"
             name="email"
             onChange={onEmailHandler}
@@ -198,7 +198,7 @@ const LoginForm = () => {
         {!isLogin && (
           <>
             <div className={classes.input}>
-              <label htmlFor="username">username</label>
+              <label htmlFor="username">사용자 아이디</label>
               <input
                 type="username"
                 id="username"
@@ -219,7 +219,7 @@ const LoginForm = () => {
               )}
             </div>
             <div className={classes.input}>
-              <label htmlFor="nickname">nickname</label>
+              <label htmlFor="nickname">닉네임</label>
               <input
                 type="nickname"
                 id="nickname"
@@ -234,7 +234,7 @@ const LoginForm = () => {
         )}
 
         <div className={classes.input}>
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">비밀번호</label>
           <input
             type="password"
             id="password"
@@ -247,7 +247,7 @@ const LoginForm = () => {
         </div>
         {!isLogin && (
           <div className={classes.input}>
-            <label htmlFor="password">confirm Password</label>
+            <label htmlFor="password">비밀번호 확인</label>
             <input
               type="password"
               id="password-conform"

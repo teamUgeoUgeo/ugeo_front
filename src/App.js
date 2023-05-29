@@ -28,7 +28,7 @@ const router = createBrowserRouter([
       { path: "/user/create/complete", element: <CreateCompletePage /> },
       { path: "/user/setting", element: <SettingPage /> },
       { path: "/user/logout", action: logoutAction },
-      { path: "*", element: <ErrorPage /> },
+      { path: "*", element: <ErrorPage/> },
     ],
   },
 ]);

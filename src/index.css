@@ -30,6 +30,19 @@ a {
   width: 100%;
   background: #fff;
 }
+.mob {
+  display: none;
+}
+.icon {
+  cursor: pointer;
+}
+.icon svg {
+  display: flex;
+}
+.flex-column {
+  display: flex;
+  flex-flow: column;
+}
 .flex-row {
   display: flex;
   flex-flow: row;
@@ -51,6 +64,7 @@ main {
   color: #2eab64;
 }
 main button.default {
+  cursor: pointer;
   background-color: #2eab64;
   color: #fff;
   border: none;
@@ -64,6 +78,12 @@ main button.default:hover,
 main .link:hover {
   background-color: #37b76e;
   color: #fff;
+}
+main button.disabled {
+  background-color: #bbb;
+}
+main button.disabled:hover {
+  background-color: #bbb;
 }
 a.link {
   background-color: #2eab64;
@@ -95,4 +115,12 @@ a.link {
 }
 .yellow {
   background: #fdec96;
+}
+@media (max-width: 64rem) {
+  .mob {
+    display: block;
+  }
+  .pc {
+    display: none;
+  }
 }

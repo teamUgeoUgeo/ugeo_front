@@ -1,14 +1,13 @@
-.logout {
+.content {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
-.logout .content {
-  min-width: 30rem;
-  width: 30%;
-
-  padding: 3.125rem 1.875rem;
+.content .logout,
+.content .error {
+  width: 90%;
+  max-width: 37.5rem;
+  padding: 3.125rem 0.625rem;
   margin: 1.875rem auto;
   border-radius: 20px;
   background: #fff;
@@ -19,7 +18,7 @@
   align-items: center;
   justify-content: center;
 }
-.login .content {
+.content .login {
   border-radius: 0;
   display: flex;
   flex-flow: row;
@@ -41,4 +40,20 @@
 }
 .link {
   margin: 1.25rem 0 0;
+}
+
+@media (max-width: 64rem) {
+  .content .login {
+    width: 100% !important;
+    border-left: none;
+    border-right: none;
+  }
+
+  .login .section {
+    background: #f7f7f7;
+    min-height: calc(100vh - 3.75rem);
+    width: 100%;
+    height: 100%;
+    padding: 5%;
+  }
 }

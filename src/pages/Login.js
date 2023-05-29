@@ -1,14 +1,16 @@
-import React from "react";
-import { json, redirect } from "react-router-dom";
-import PageContent from "../components/PageContent";
-import CryptoJS from "crypto-js";
-
-import AuthForm from "../components/AuthForm";
+import React from 'react';
+import { redirect } from 'react-router-dom';
+import PageContent from '../components/PageContent';
+import CryptoJS from 'crypto-js';
+import AuthForm from '../components/AuthForm';
+import classes from "../components/PageContent.module.css";
 
 const LoginPage = () => {
   return (
     <PageContent>
-      <AuthForm />
+      <div className={`${classes.logout} max-width`}>
+        <AuthForm />
+      </div>
     </PageContent>
   );
 };
@@ -23,39 +25,35 @@ export async function action({ request }) {
 
   const data = await request.formData();
   const authData = {
-    email: data.get("email"),
-    password: hashPassword(data.get("password")),
+    email: data.get('email'),
+    password: hashPassword(data.get('password')),
   };
 
   const additionalData = {
-    username: data.get("username"),
-    nickname: data.get("nickname"),
+    username: data.get('username'),
+    nickname: data.get('nickname'),
   };
 
   let header = {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   };
 
   let body = authData;
 
   const loginPath = `/user/login?email=${authData.email}&password=${authData.password}`;
   const path = window.location.pathname;
-  let mode = "/user/create";
+  let mode = '/user/create';
 
-  if (path !== "/user/create") {
+  if (path !== '/user/create') {
     mode = loginPath;
-  }
-
-  if (mode !== loginPath && mode !== "/user/create") {
-    throw json({ message: "지원하지 않는 모드 입니다." }, { status: 422 });
   }
 
   if (mode !== loginPath) {
     body = { ...authData, ...additionalData };
   }
 
-  const response = await fetch("/api" + mode, {
-    method: "POST",
+  const response = await fetch('/api' + mode, {
+    method: 'POST',
     headers: header,
     body: JSON.stringify(body),
   });
@@ -65,16 +63,16 @@ export async function action({ request }) {
   }
 
   if (mode !== loginPath) {
-    return redirect("/user/create/complete");
+    return redirect('/user/create/complete');
   } else {
     const resData = await response.json();
     const token = resData.access_token;
 
-    localStorage.setItem("token", token);
+    localStorage.setItem('token', token);
     const expiration = new Date();
     expiration.setHours(expiration.getHours() + 1);
-    localStorage.setItem("expiration", expiration.toISOString());
+    localStorage.setItem('expiration', expiration.toISOString());
 
-    return redirect("/");
+    return redirect('/');
   }
 }

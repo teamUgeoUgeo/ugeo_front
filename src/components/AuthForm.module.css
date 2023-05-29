@@ -1,5 +1,5 @@
 .form {
-  width: 90%;
+  width: 70%;
 }
 .title {
   font-size: 1.5rem;
@@ -35,11 +35,16 @@ p.invalid {
   width: 100%;
   margin: 0.625rem 0 1.25rem;
 }
-
 .link {
   display: block;
   text-align: center;
 }
 .link:hover {
   color: #2eab64;
+}
+
+@media (max-width: 64rem) {
+  .form {
+    width: 90%;
+  }
 }

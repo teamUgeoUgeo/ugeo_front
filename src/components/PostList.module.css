@@ -11,9 +11,15 @@
 
 .list > li {
   border-radius: 10px;
-  padding: 0.9375rem 1.25rem;
+  padding: 0.9375rem 0.625rem 1.5625rem 1.25rem;
   background: #fff;
   width: 100%;
+}
+
+.article {
+  display: flex;
+  flex-flow: column;
+  position: relative;
 }
 
 .top {
@@ -22,21 +28,28 @@
   align-items: flex-start;
   justify-content: space-between;
   position: relative;
+  margin: 0 0 0.9375rem;
 }
 
 .amount {
+  display: inline-block;
   padding: 0.3125rem 0.625rem;
   border-radius: 5px;
   background: #eee;
-  margin: 0 0 0.625rem;
+  margin: 0 0.625rem 0 0;
 }
 
-.more {
-  cursor: pointer;
+.userinfo {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
 }
 
-.more {
-  cursor: pointer;
+.username {
+  color: #bbb;
+  font-size: 0.875rem;
+  margin: 0 0 0 0.1875rem;
+  font-weight: 300;
 }
 
 .edit {
@@ -57,4 +70,35 @@
   cursor: pointer;
   border: none;
   background: transparent;
+}
+
+.list input[name="amount"] {
+  background: #f7f7f7;
+  width: 100%;
+  padding: 0.625rem;
+  border-radius: 0.3125rem;
+  border: none;
+}
+
+.list textarea[name="detail"] {
+  outline: none;
+  resize: none;
+  width: 100%;
+  padding: 0.625rem;
+  border: none;
+}
+
+.list .modify,
+.list .cancel {
+  padding: 0.3125rem 0.9375rem;
+  border-radius: 0.4688rem;
+}
+.list .modify {
+  margin: 0 0.4688rem 0 auto;
+}
+.list .cancel {
+  background: #bbb;
+}
+.list .cancel:hover {
+  background: #ccc;
 }

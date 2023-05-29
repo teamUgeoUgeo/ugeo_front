@@ -17,8 +17,14 @@
   padding: 0 1.875rem;
 }
 .logout {
+  cursor: pointer;
   background: transparent;
   border: none;
   font-size: 0.875rem;
   color: unset;
+}
+@media (max-width: 64rem) {
+  .headerwrap {
+    padding: 0;
+  }
 }

@@ -16,7 +16,7 @@ module.exports = {
     },
     proxy: {
       "/api": {
-        target: "https://ugeo-back.sigae.kim",
+        target: "https://ugeo.sigae.kim",
         changeOrigin: true,
       },
     },

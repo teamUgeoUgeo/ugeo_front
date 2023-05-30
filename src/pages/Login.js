@@ -40,13 +40,8 @@ export async function action({ request }) {
 
   let body = authData;
 
-  const loginPath = `/user/login?email=${authData.email}&password=${authData.password}`;
-  const path = window.location.pathname;
-  let mode = "/user/create";
-
-  if (path !== "/user/create") {
-    mode = loginPath;
-  }
+  const loginPath = "/user/login";
+  let mode = window.location.pathname;
 
   if (mode !== loginPath) {
     body = { ...authData, ...additionalData };

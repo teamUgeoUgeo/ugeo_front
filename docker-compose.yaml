@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+    frontend :
+        build :
+          dockerfile: front_develop.dockerfile
+        volumes:
+            - .:/app
+    backend :
+        image : sigae/ugeo_back
+    nginx:
+        build:
+            dockerfile: nginx_develop.Dockerfile
+        ports:
+          - "3000:3000"
+
+

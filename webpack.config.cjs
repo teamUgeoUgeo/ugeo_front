@@ -20,6 +20,7 @@ module.exports = {
         changeOrigin: true,
       },
     },
+    allowedHosts: 'all',
     historyApiFallback: true,
   },
   resolve: {

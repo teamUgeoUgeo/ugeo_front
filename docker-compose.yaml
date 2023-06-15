@@ -8,10 +8,39 @@ services:
             - .:/app
     backend :
         image : sigae/ugeo_back
+        environment:
+            - DB_ID=root
+            - DB_URL=db
+            - SECRET_KEY={SECRET_KEY}
+            - DB_PASSWORD={DB_PASSWORD}
+        depends_on:
+            db:
+                condition: service_healthy
     nginx:
         build:
             dockerfile: nginx_develop.Dockerfile
         ports:
           - "3000:3000"
+        depends_on:
+            - backend
+            - frontend
+    db:
+        image: mysql:8.0
+        ports:
+            - "3306:3306"
+        environment:
+            - MYSQL_ROOT_PASSWORD={ password }
+        command:
+            - --character-set-server=utf8mb4
+            - --collation-server=utf8mb4_unicode_ci
+        volumes:
+            - ./db/data:/var/lib/mysql
+        healthcheck:
+            test: [ 'CMD-SHELL',. 'mysqladmin ping -h 127.0.0.1 -u root --password=$$MYSQL_ROOT_PASSWORD' ]
+            interval: 10s
+            timeout: 2s
+            retries: 100
+
+
 
 

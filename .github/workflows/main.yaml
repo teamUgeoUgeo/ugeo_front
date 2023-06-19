@@ -4,9 +4,12 @@ name: build docker image
 
 # Controls when the workflow will run
 on:
-  # main 브랜치 push 될때만 작동
   push:
-    branches: [ main ]
+    # branches:
+    #   - main
+    # Publish `v1.2.3` tags as releases.
+    tags:
+      - v*
 
 
 jobs:
@@ -34,12 +37,26 @@ jobs:
           username: ${{ secrets.DOCKERHUB_ID }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+      - name: Choose image tag
+        run: |
+          echo "GITHUB_REF_TYPE=$GITHUB_REF_TYPE"
+          echo "GITHUB_REF_NAME=$GITHUB_REF_NAME"
+          if [[ "$GITHUB_REF_TYPE" = "tag" ]]; then
+            IMAGE_TAG=$GITHUB_REF_NAME
+            echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+          else
+            IMAGE_TAG=$(git rev-parse --short $GITHUB_SHA)
+            echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+          fi
+          echo "IMAGE_TAG=$IMAGE_TAG"
       - name: Build container image
         run: |
-          IMAGE_NAME=${{secrets.DOCKERHUB_ID}}/ugeo_front
+          IMAGE_NAME=${{secrets.DOCKERHUB_ID}}/ugeo_front:$IMAGE_TAG
+          echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
+          echo "IMAGE_NAME=$IMAGE_NAME"
           docker build -t $IMAGE_NAME .
           echo
       - name: Push container image
         run: |
-          docker push ${{secrets.DOCKERHUB_ID}}/ugeo_front
+          docker push $IMAGE_NAME
           echo "Pushed container image: $IMAGE_NAME"

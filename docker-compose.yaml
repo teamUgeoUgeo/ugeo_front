@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+    frontend :
+        build :
+          dockerfile: front_develop.dockerfile
+        volumes:
+            - .:/app
+    backend :
+        image : sigae/ugeo_back
+        env_file:
+            - ".env"
+        environment:
+            - DB_ID=root
+            - DB_URL=db
+            - DB_PASSWORD=$MYSQL_ROOT_PASSWORD
+        depends_on:
+            db:
+                condition: service_healthy
+    nginx:
+        build:
+            dockerfile: nginx_develop.Dockerfile
+        ports:
+          - "3000:3000"
+        depends_on:
+            - backend
+            - frontend
+    db:
+        image: mysql:8.0
+        env_file:
+            - ".env"
+        ports:
+            - "3306:3306"
+        command:
+            - --character-set-server=utf8mb4
+            - --collation-server=utf8mb4_unicode_ci
+        volumes:
+            - ./db/data:/var/lib/mysql
+        healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-u", "root", "--password=$MYSQL_ROOT_PASSWORD"]
+            interval: 15s
+            timeout: 2s
+            retries: 500
+
+
+
+

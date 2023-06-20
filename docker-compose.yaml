@@ -8,6 +8,8 @@ services:
       - .:/app
     environment:
       - WDS_SOCKET_PORT=0
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
   backend:
     image: sigae/ugeo_back:dev-login_return_info
     env_file:

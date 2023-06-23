@@ -1,8 +1,8 @@
+import CryptoJS from "crypto-js";
 import React from "react";
 import { redirect } from "react-router-dom";
-import PageContent from "../components/PageContent";
-import CryptoJS from "crypto-js";
 import AuthForm from "../components/AuthForm";
+import PageContent from "../components/PageContent";
 import classes from "../components/PageContent.module.css";
 
 const LoginPage = () => {
@@ -62,11 +62,14 @@ export async function action({ request }) {
   } else {
     const resData = await response.json();
     const token = resData.access_token;
-
-    localStorage.setItem("token", token);
     const expiration = new Date();
     expiration.setHours(expiration.getHours() + 1);
+
+    localStorage.setItem("token", token);
     localStorage.setItem("expiration", expiration.toISOString());
+    localStorage.setItem("email", resData.email);
+    localStorage.setItem("username", resData.username);
+    localStorage.setItem("nickname", resData.nickname);
 
     return redirect("/");
   }

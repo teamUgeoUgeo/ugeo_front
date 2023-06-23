@@ -23,6 +23,7 @@ const HomePage = () => {
     fetchData();
   }, []);
 
+
   const handleDelete = async (id) => {
     setData(data.filter((el) => el.id !== id));
     await deletePost(`/api/article/${id}`);
@@ -47,7 +48,6 @@ const HomePage = () => {
         return el;
       })
     );
-
     await updatePost("/api/article/", postData);
   };
 

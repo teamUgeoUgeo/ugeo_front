@@ -1,88 +1,54 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useRouteLoaderData } from "react-router-dom";
+import { Link, useRouteLoaderData } from "react-router-dom";
 import PageContent from "../components/PageContent";
 import classes from "../components/PageContent.module.css";
 import PostForm from "../components/PostForm";
 import PostList from "../components/PostList";
 import Sidebar from "../components/Sidebar";
+import { createPost, deletePost, getPost, updatePost } from "../util/crud";
 
 const HomePage = () => {
   const token = useRouteLoaderData("root");
-  const [data, setData] = useState(null);
-  const navigate = useNavigate();
+  const [data, setData] = useState([]);
 
-  const fetchData = async (token) => {
-    if (!token || token === "EXPIRED") {
-      return;
-    }
-
-    const response = await fetch("/api/article/", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-    const getResdata = await response.json();
-    setData(getResdata);
-
-    if (!response.ok) {
-      navigate("/error");
-    }
+  const fetchData = async () => {
+    const resdata = await getPost("/api/article/");
+    setData(resdata);
   };
 
   useEffect(() => {
-    fetchData(token);
-  }, [token]);
+    if (!token || token === "EXPIRED") {
+      return;
+    }
+    fetchData();
+  }, []);
+
 
   const handleDelete = async (id) => {
     setData(data.filter((el) => el.id !== id));
-
-    const response = await fetch(`/api/article/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      navigate("/error");
-    }
+    await deletePost(`/api/article/${id}`);
   };
 
-  const handleSubmit = async (postData, method) => {
-    let header = {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    };
+  const handleSubmit = async (postData) => {
+    const response = await createPost("/api/article/", postData);
+    postData["id"] = response.article_id;
+    setData([postData, ...data]);
+  };
 
-    const response = await fetch("/api/article/", {
-      method: method,
-      headers: header,
-      body: JSON.stringify(postData),
-    });
-
-    if (!response.ok) {
-      navigate("/error");
-    }
-
-    if (method === "POST") {
-      const postResData = await response.json();
-      postData["id"] = postResData.article_id;
-      setData([postData, ...data]);
-    } else {
-      setData(
-        data.map((el) => {
-          if (el.id === postData.article_id) {
-            return {
-              ...el,
-              amount: postData.amount,
-              detail: postData.detail,
-            };
-          }
-        })
-      );
-    }
+  const handleModify = async (postData) => {
+    setData(
+      data.map((el) => {
+        if (el.id === postData.article_id) {
+          el = {
+            ...el,
+            amount: postData.amount,
+            detail: postData.detail,
+          };
+        }
+        return el;
+      })
+    );
+    await updatePost("/api/article/", postData);
   };
 
   return (
@@ -98,7 +64,7 @@ const HomePage = () => {
             </Link>
           </div>
         )}
-        {token && data && (
+        {token && (
           <div className={`${classes.login} max-width`}>
             <Sidebar />
             <section className={classes.section}>
@@ -106,7 +72,7 @@ const HomePage = () => {
               <PostList
                 datas={data}
                 onDelete={handleDelete}
-                onModify={handleSubmit}
+                onModify={handleModify}
               />
             </section>
           </div>

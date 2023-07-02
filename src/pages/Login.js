@@ -71,6 +71,12 @@ export async function action({ request }) {
     localStorage.setItem("username", resData.username);
     localStorage.setItem("nickname", resData.nickname);
 
+    localStorage.setItem("token", token);
+    localStorage.setItem("expiration", expiration.toISOString());
+    localStorage.setItem("email", resData.email);
+    localStorage.setItem("username", resData.username);
+    localStorage.setItem("nickname", resData.nickname);
+
     return redirect("/");
   }
 }

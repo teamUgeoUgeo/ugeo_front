@@ -14,9 +14,7 @@ const PostForm = ({ onSubmit }) => {
       detail: detail,
     };
 
-    const method = "POST";
-
-    onSubmit(postData, method);
+    onSubmit(postData);
     formRef.current.reset();
   };
 

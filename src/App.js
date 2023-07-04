@@ -1,6 +1,7 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import CreateCompletePage from "./pages/CreateComplete";
+import DetailPage from "./pages/Detail";
 import ErrorPage from "./pages/Error";
 import HomePage from "./pages/Home";
 import LoginPage from "./pages/Login";
@@ -28,6 +29,10 @@ const App = () => {
             },
             { path: "setting", element: <SettingPage /> },
           ],
+        },
+        {
+          path: "article",
+          children: [{ path: ":id", element: <DetailPage /> }],
         },
         { path: "*", element: <ErrorPage /> },
       ],

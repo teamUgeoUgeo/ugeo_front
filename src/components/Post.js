@@ -1,8 +1,10 @@
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
+import { formatDate } from "../util/crud";
 import classes from "./Post.module.css";
 
-const Post = ({ data }) => {
+const Post = ({ data, onDelete, onModify }) => {
   const [showEdit, setShowEdit] = useState("");
   const [toggleModify, setToggleModify] = useState(null);
   const [changeAmount, setChangeAmount] = useState(null);
@@ -53,9 +55,6 @@ const Post = ({ data }) => {
     if (postData.detail === "" || postData.amount === "") {
       return;
     }
-
-    data.amount = changeAmount;
-    data.detail = changeDetail;
   };
 
   const onDeleteHandler = (id) => {
@@ -102,12 +101,15 @@ const Post = ({ data }) => {
       {toggleModify !== data.id && (
         <article className={`${classes.background} ${classes.article}`}>
           <div className={classes.top}>
-            <div className={classes.userinfo}>
+            <div className={classes.user_info}>
               <span className={`${classes.amount} ${decoAmount(data.amount)}`}>
                 {addComma(data.amount)}
               </span>
-              {/* <span className={classes.nickname}>{data.nickname}</span>
-                  <span className={classes.username}>@{data.username}</span> */}
+              <p>
+                {data.nickname}
+                <span className={classes.username}>@{data.username}</span>
+              </p>
+              <p className={classes.date}>{formatDate(data.create_at)}</p>
             </div>
             <div className="icon" onClick={(event) => onShowEdithandler(event, data.id)}>
               <MoreVertIcon />
@@ -163,6 +165,10 @@ const Post = ({ data }) => {
       )}
     </>
   );
+};
+
+Post.propTypes = {
+  data: PropTypes.object.isRequired,
 };
 
 export default Post;

@@ -3,12 +3,9 @@
   position: fixed;
   width: 100%;
   top: 0;
-
   background: #fff;
   border-bottom: 1px solid #ddd;
-
   height: 3.75rem;
-
   display: flex;
   align-content: center;
   justify-content: space-between;

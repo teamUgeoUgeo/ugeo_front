@@ -1,0 +1,18 @@
+.form {
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0 1.25rem;
+}
+.form textarea {
+  width: calc(100% - 6.25rem);
+  border: none;
+  resize: none;
+}
+
+.form .button {
+  padding: 0.625rem 0.9375rem;
+  border-radius: 50px;
+}

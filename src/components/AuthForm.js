@@ -1,13 +1,34 @@
-import React from "react";
-import { useRef, useState } from "react";
-import { Form, Link, useActionData } from "react-router-dom";
+import CryptoJS from "crypto-js";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { checkExist, login, register } from "../util/auth";
 import classes from "./AuthForm.module.css";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
+
   const currentPath = window.location.pathname;
   const isLogin = currentPath == "/user/login";
+  const [active, setActive] = useState(false);
 
-  const data = useActionData();
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+
+  const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isValidUsername, setIsValidUsername] = useState(false);
+  const [isValidNickname, setIsValidNickname] = useState(false);
+  const [isValidPassword, setIsValidPassword] = useState(false);
+  const [isValidPasswordConfirm, setIsValidPasswordConfirm] = useState(false);
+
+  const [emailMessage, setEmailMessage] = useState("");
+  const [usernameMessage, setUsernameMessage] = useState("");
+  const [nicknameMessage, setNicknameMessage] = useState("");
+  const [passwordMessage, setPasswordMessage] = useState("");
+  const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("");
+
   const formRef = useRef();
 
   const isEmail = function (value) {
@@ -27,124 +48,207 @@ const LoginForm = () => {
     return value.length < 17;
   };
 
+  const isEmpty = function (value) {
+    return value.length < 1;
+  };
+
   const checkEmail = function (value) {
-    if (!isEmail(value) && value) {
+    if (isEmpty(value)) {
+      setEmailMessage("");
+      setIsValidEmail(false);
+      return;
+    }
+
+    if (!isEmail(value)) {
       setEmailMessage("정확한 이메일을 입력해 주세요.");
-      return false;
+      setIsValidEmail(false);
+      return;
     }
 
     setEmailMessage("");
-    return true;
+    setIsValidEmail(true);
   };
 
   const checkUsername = function (value) {
-    if (!isMoreThan4Length(value) && value) {
+    if (isEmpty(value)) {
+      setUsernameMessage("");
+      setIsValidUsername(false);
+      return;
+    }
+
+    if (!isMoreThan4Length(value)) {
       setUsernameMessage("4자 이상의 id를 입력해주세요.");
-      return false;
+      setIsValidUsername(false);
+      return;
     }
 
     setUsernameMessage("");
-    return true;
+    setIsValidUsername(true);
   };
 
   const checkNickname = function (value) {
-    if (!islessThan8Length(value) && value) {
+    if (isEmpty(value)) {
+      setNicknameMessage("");
+      setIsValidNickname(false);
+      return;
+    }
+
+    if (!islessThan8Length(value)) {
       setNicknameMessage("8자 이하로 입력해 주세요.");
-      return false;
+      setIsValidNickname(false);
+      return;
     }
 
     setNicknameMessage("");
-    return true;
+    setIsValidNickname(true);
   };
 
   const checkPassword = function (value) {
-    if (!islessThan16Length(value) && value) {
+    if (isEmpty(value)) {
+      setPasswordMessage("");
+      setIsValidPassword(false);
+      return;
+    }
+
+    if (!islessThan16Length(value)) {
       setPasswordMessage("16자 이하로 입력해 주세요.");
-      return false;
+      setIsValidPassword(false);
+      return;
     }
     setPasswordMessage("");
-    return true;
+    setIsValidPassword(true);
   };
 
   const checkPasswordConfirm = function (value) {
-    if (password !== value && value) {
+    if (isEmpty(value)) {
+      setPasswordConfirmMessage("");
+      setIsValidPasswordConfirm(false);
+      return;
+    }
+
+    if (password !== value) {
       setPasswordConfirmMessage("입력한 비밀번호와 다릅니다.");
-      return false;
+      setIsValidPasswordConfirm(false);
+      return;
     }
 
     setPasswordConfirmMessage("");
-    return true;
+    setIsValidPasswordConfirm(true);
   };
 
-  const [username, setUsername] = useState("");
-  const [nickname, setNickname] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
-
-  const [usernameMessage, setUsernameMessage] = useState("");
-  const [nicknameMessage, setNicknameMessage] = useState("");
-  const [emailMessage, setEmailMessage] = useState("");
-  const [passwordMessage, setPasswordMessage] = useState("");
-  const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("");
-
-  const onUsernameHandler = (event) => {
+  const onChangeUsernameHandler = (event) => {
     const value = event.target.value;
     setUsername(value);
     checkUsername(value);
   };
 
-  const onEmailHandler = (event) => {
+  const onChangeEmailHandler = (event) => {
     const value = event.target.value;
     setEmail(value);
     checkEmail(value);
   };
 
-  const onNicknameHandler = (event) => {
+  const onChangeNicknameHandler = (event) => {
     const value = event.target.value;
     setNickname(value);
     checkNickname(value);
   };
 
-  const onPasswordHandler = (event) => {
+  const onChangePasswordHandler = (event) => {
     const value = event.target.value;
     setPassword(value);
     checkPassword(value);
   };
 
-  const onConfirmPasswordHandler = (event) => {
+  const onChangeConfirmPasswordHandler = (event) => {
     const value = event.target.value;
     setPasswordConfirm(value);
     checkPasswordConfirm(value);
   };
 
-  const onSubmitHandler = (event) => {
-    if (!isLogin) {
-      !checkUsername(username) ||
-      !checkNickname(nickname) ||
-      !checkPasswordConfirm(passwordConfirm)
-        ? event.preventDefault()
-        : "";
-
-      if (password !== passwordConfirm) {
-        setPasswordConfirmMessage("입력한 비밀번호와 다릅니다.");
-      }
-
-      if (!username) setUsernameMessage("사용자 아이디는 비어있으면 안됩니다.");
-      if (!nickname) setNicknameMessage("닉네임은 비어있으면 안됩니다.");
-      if (!passwordConfirm)
-        setPasswordConfirmMessage("비밀번호 확인은 비어있으면 안됩니다.");
-
-      !username || !nickname || !passwordConfirm ? event.preventDefault() : "";
+  const onBlurEmailHandler = async (event) => {
+    if (isLogin || !isValidEmail) {
+      return;
     }
-    !checkEmail(email) || !checkPassword(password)
-      ? event.preventDefault()
-      : "";
 
-    if (!email) setEmailMessage("이메일은 비어있으면 안됩니다.");
-    if (!password) setPasswordMessage("비밀번호는 비어있으면 안됩니다.");
+    const formData = {};
+    formData[`${event.target.name}`] = event.target.value;
 
-    !email || !password ? event.preventDefault() : "";
+    const response = await checkExist("/api/user/check_email", formData);
+    setEmailMessage(response);
+  };
+
+  const onBlurUsernameHandler = async (event) => {
+    if (isLogin || !isValidUsername) {
+      return;
+    }
+
+    const formData = {};
+    formData[`${event.target.name}`] = event.target.value;
+
+    const response = await checkExist("/api/user/check_username", formData);
+    setUsernameMessage(response);
+  };
+
+  const hashPassword = (password) => {
+    const hashedPassword = CryptoJS.SHA3(password).toString();
+    return hashedPassword;
+  };
+
+  const checkValue = () => {
+    if (
+      (isLogin && isValidEmail && isValidPassword) ||
+      (!isLogin &&
+        isValidEmail &&
+        isValidPassword &&
+        isValidUsername &&
+        isValidNickname &&
+        isValidPasswordConfirm)
+    ) {
+      setActive(true);
+    } else {
+      setActive(false);
+    }
+  };
+
+  useEffect(() => {
+    checkValue();
+  }, [email, password, username, nickname, passwordConfirm]);
+
+  const onLoginHandler = async () => {
+    if (!active) {
+      return;
+    }
+
+    const formData = {
+      email,
+      password: hashPassword(password),
+    };
+
+    const response = await login("/api/user/login", formData);
+
+    if (response !== 200) {
+      setEmailMessage(response);
+    } else {
+      navigate("/", { forceRefresh: true });
+    }
+  };
+
+  const onRegisterHandler = async () => {
+    if (!active) {
+      return;
+    }
+
+    const formData = {
+      email,
+      username,
+      nickname,
+      password: hashPassword(password),
+      passwordConfirm: hashPassword(passwordConfirm),
+    };
+
+    await register("/api/user/create", formData);
+    navigate("/create/complete", { forceRefresh: true });
   };
 
   const resetValue = () => {
@@ -165,33 +269,24 @@ const LoginForm = () => {
 
   return (
     <>
-      <Form
+      <form
         className={classes.form}
         method="post"
         ref={formRef}
-        onSubmit={onSubmitHandler}
+        onSubmit={(event) => event.preventDefault()}
       >
-        <h4 className={classes.title + " p-1"}>
-          {isLogin ? "로그인" : "회원가입"}
-        </h4>
+        <h4 className={classes.title + " p-1"}>{isLogin ? "로그인" : "회원가입"}</h4>
 
         <div className={classes.input}>
           <label htmlFor="email">이메일</label>
           <input
             type="text"
+            className={emailMessage && classes.invalid}
             id="email"
             name="email"
-            onChange={onEmailHandler}
+            onChange={onChangeEmailHandler}
+            onBlur={onBlurEmailHandler}
           />
-          {data && isLogin && (
-            <p className={classes.invalid}>
-              {typeof data.detail === "string"
-                ? data.detail
-                : Array.isArray(data.detail) && data.detail.length >= 1
-                ? data.detail[0].msg
-                : ""}
-            </p>
-          )}
           {emailMessage && <p className={classes.invalid}>{emailMessage}</p>}
         </div>
 
@@ -201,34 +296,24 @@ const LoginForm = () => {
               <label htmlFor="username">사용자 아이디</label>
               <input
                 type="username"
+                className={usernameMessage && classes.invalid}
                 id="username"
                 name="username"
-                onChange={onUsernameHandler}
+                onChange={onChangeUsernameHandler}
+                onBlur={onBlurUsernameHandler}
               />
-              {usernameMessage && (
-                <p className={classes.invalid}>{usernameMessage}</p>
-              )}
-              {data && (
-                <p className={classes.invalid}>
-                  {typeof data.detail === "string"
-                    ? data.detail
-                    : Array.isArray(data.detail) && data.detail.length >= 1
-                    ? data.detail[0].msg
-                    : ""}
-                </p>
-              )}
+              {usernameMessage && <p className={classes.invalid}>{usernameMessage}</p>}
             </div>
             <div className={classes.input}>
               <label htmlFor="nickname">닉네임</label>
               <input
                 type="nickname"
+                className={nicknameMessage && classes.invalid}
                 id="nickname"
                 name="nickname"
-                onChange={onNicknameHandler}
+                onChange={onChangeNicknameHandler}
               />
-              {nicknameMessage && (
-                <p className={classes.invalid}>{nicknameMessage}</p>
-              )}
+              {nicknameMessage && <p className={classes.invalid}>{nicknameMessage}</p>}
             </div>
           </>
         )}
@@ -237,40 +322,41 @@ const LoginForm = () => {
           <label htmlFor="password">비밀번호</label>
           <input
             type="password"
+            className={passwordMessage && classes.invalid}
             id="password"
             name="password"
-            onChange={onPasswordHandler}
+            onChange={onChangePasswordHandler}
           />
-          {passwordMessage && (
-            <p className={classes.invalid}>{passwordMessage}</p>
-          )}
+          {passwordMessage && <p className={classes.invalid}>{passwordMessage}</p>}
         </div>
         {!isLogin && (
           <div className={classes.input}>
             <label htmlFor="password">비밀번호 확인</label>
             <input
               type="password"
+              className={passwordConfirmMessage && classes.invalid}
               id="password-conform"
               name="password"
-              onChange={onConfirmPasswordHandler}
+              onChange={onChangeConfirmPasswordHandler}
             />
-            {passwordConfirmMessage && (
-              <p className={classes.invalid}>{passwordConfirmMessage}</p>
-            )}
+            {passwordConfirmMessage && <p className={classes.invalid}>{passwordConfirmMessage}</p>}
           </div>
         )}
-        <button className={`${classes.button} default`}>
+        <button
+          className={`${!active ? `${classes.block}` : ""} ${classes.button} default`}
+          onClick={isLogin ? onLoginHandler : onRegisterHandler}
+        >
           {isLogin ? "로그인" : "회원가입"}
         </button>
+
         <Link
           className={classes.link}
           to={`/${isLogin ? "user/create" : "user/login"}`}
           onClick={resetValue}
-          type="button"
         >
           {isLogin ? "회원가입" : "로그인"}
         </Link>
-      </Form>
+      </form>
     </>
   );
 };

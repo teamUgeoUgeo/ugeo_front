@@ -1,36 +1,38 @@
 import React, { useEffect, useState } from "react";
-import { Link, useRouteLoaderData } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PageContent from "../components/PageContent";
 import classes from "../components/PageContent.module.css";
 import PostForm from "../components/PostForm";
 import PostList from "../components/PostList";
 import Sidebar from "../components/Sidebar";
+import { getAuthToken } from "../util/auth";
 import { createPost, deletePost, getPost, updatePost } from "../util/crud";
 
 const HomePage = () => {
-  const token = useRouteLoaderData("root");
+  const token = getAuthToken();
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
 
   const fetchData = async () => {
-    const resdata = await getPost("/api/article/");
+    const resdata = await getPost("/api/article/", token);
     setData(resdata);
   };
 
   useEffect(() => {
-    if (!token || token === "EXPIRED") {
+    if (!token) {
+      navigate("/", { forceRefresh: true });
       return;
     }
     fetchData();
-  }, []);
-
+  }, [token]);
 
   const handleDelete = async (id) => {
     setData(data.filter((el) => el.id !== id));
-    await deletePost(`/api/article/${id}`);
+    await deletePost(`/api/article/${id}`, token);
   };
 
   const handleSubmit = async (postData) => {
-    const response = await createPost("/api/article/", postData);
+    const response = await createPost("/api/article/", postData, token);
     postData["id"] = response.article_id;
     setData([postData, ...data]);
   };
@@ -48,7 +50,7 @@ const HomePage = () => {
         return el;
       })
     );
-    await updatePost("/api/article/", postData);
+    await updatePost("/api/article/", postData, token);
   };
 
   return (
@@ -69,11 +71,7 @@ const HomePage = () => {
             <Sidebar />
             <section className={classes.section}>
               <PostForm onSubmit={handleSubmit} />
-              <PostList
-                datas={data}
-                onDelete={handleDelete}
-                onModify={handleModify}
-              />
+              <PostList datas={data} onDelete={handleDelete} onModify={handleModify} />
             </section>
           </div>
         )}

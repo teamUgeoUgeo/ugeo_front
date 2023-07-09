@@ -1,14 +1,70 @@
-import { redirect } from "react-router-dom";
+const header = (body) => {
+  return {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  };
+};
 
-export function getTokenDuration() {
+export const checkExist = async (url, body) => {
+  try {
+    const response = await fetch(url, header(body));
+    const keyname = Object.keys(body)[0];
+
+    if (response.status === 409) {
+      if (keyname === "email") {
+        throw new Error("사용중인 이메일 입니다.");
+      }
+      if (keyname === "username") {
+        throw new Error("사용중인 사용자 아이디 입니다.");
+      }
+    }
+  } catch (error) {
+    return error.message;
+  }
+};
+
+export const login = async (url, body) => {
+  try {
+    const response = await fetch(url, header(body));
+
+    if (response.status === 401) {
+      throw new Error("아이디, 또는 비밀번호가 일치하지 않습니다");
+    }
+
+    const data = await response.json();
+    const expiration = new Date();
+    expiration.setHours(expiration.getHours() + 1);
+
+    localStorage.setItem("token", data.access_token);
+    localStorage.setItem("expiration", expiration.toISOString());
+    localStorage.setItem("email", data.email);
+    localStorage.setItem("username", data.username);
+    localStorage.setItem("nickname", data.nickname);
+
+    return response.status;
+  } catch (error) {
+    return error.message;
+  }
+};
+
+export const register = async (url, body) => {
+  await fetch(url, header(body));
+};
+
+export const logout = async () => {
+  localStorage.clear();
+};
+
+export const getTokenDuration = () => {
   const expirationDate = new Date(localStorage.getItem("expiration"));
   const now = new Date();
   const duration = expirationDate.getTime() - now.getTime();
 
   return duration;
-}
+};
 
-export function getAuthToken() {
+export const getAuthToken = () => {
   const token = localStorage.getItem("token");
 
   if (!token) {
@@ -17,26 +73,11 @@ export function getAuthToken() {
   const tokenDuration = getTokenDuration();
 
   if (tokenDuration < 0) {
-    return "EXPIRED";
+    return logout();
   }
 
   return token;
-}
-
-export function tokenLoader() {
-  return getAuthToken();
-}
-
-export function checkAuthLoader() {
-  const token = getAuthToken();
-
-  if (token) {
-    alert("이미 로그인 하셨습니다.");
-    return redirect("/");
-  }
-
-  return null;
-}
+};
 
 export function getUserInfo() {
   const email = localStorage.getItem("email");

@@ -1,23 +1,31 @@
-import { getAuthToken } from "./auth";
-const token = getAuthToken();
-const header = {
-  Authorization: `Bearer ${token}`,
-  "Content-Type": "application/json",
+const header = (token) => {
+  return {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  };
 };
 
-export const getPost = async (url) => {
-  const response = await fetch(url, {
-    headers: header,
-  });
+export const getPost = async (url, token) => {
+  try {
+    const response = await fetch(url, {
+      headers: header(token),
+    });
 
-  const data = await response.json();
-  return data;
+    if (response.status === 401) {
+      throw new Error("토큰을 찾을 수 없습니다.");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    return [];
+  }
 };
 
-export const createPost = async (url, body) => {
+export const createPost = async (url, body, token) => {
   const response = await fetch(url, {
     method: "POST",
-    headers: header,
+    headers: header(token),
     body: JSON.stringify(body),
   });
 
@@ -25,17 +33,17 @@ export const createPost = async (url, body) => {
   return data;
 };
 
-export const updatePost = async (url, body) => {
+export const updatePost = async (url, body, token) => {
   await fetch(url, {
     method: "PUT",
-    headers: header,
+    headers: header(token),
     body: JSON.stringify(body),
   });
 };
 
-export const deletePost = async (url) => {
+export const deletePost = async (url, token) => {
   await fetch(url, {
     method: "DELETE",
-    headers: header,
+    headers: header(token),
   });
 };

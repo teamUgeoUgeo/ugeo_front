@@ -31,7 +31,7 @@
 .form textarea[name="detail"] {
   width: 100%;
   overflow: auto;
-  padding: 0.625rem;
+  padding: 0 0.625rem;
   border: none;
   resize: none;
   outline: none;

@@ -9,7 +9,9 @@ const Post = ({ data, onDelete, onModify }) => {
   const [toggleModify, setToggleModify] = useState(null);
   const [changeAmount, setChangeAmount] = useState(null);
   const [changeDetail, setChangeDetail] = useState(null);
+
   const editRef = useRef();
+  const textareaRef = useRef();
 
   const preventBubbling = (event) => {
     event.preventDefault();
@@ -46,9 +48,7 @@ const Post = ({ data, onDelete, onModify }) => {
       article_id: data.id,
     };
 
-    const method = "PUT";
-
-    onModify(postData, method);
+    onModify(postData);
     setToggleModify(null);
     setShowEdit(null);
 
@@ -96,6 +96,17 @@ const Post = ({ data, onDelete, onModify }) => {
     };
   }, [editRef]);
 
+  const adjustTextareaHeight = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  };
+
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [changeDetail]);
+
   return (
     <>
       {toggleModify !== data.id && (
@@ -140,6 +151,7 @@ const Post = ({ data, onDelete, onModify }) => {
             onChange={onChangeAmount}
           />
           <textarea
+            ref={textareaRef}
             name="detail"
             maxLength={255}
             defaultValue={data.detail}

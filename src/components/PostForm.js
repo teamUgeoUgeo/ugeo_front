@@ -5,6 +5,9 @@ import classes from "./PostForm.module.css";
 const PostForm = ({ onSubmit }) => {
   const [amount, setAmount] = useState("");
   const [detail, setDetail] = useState("");
+  const [checkDetail, setCheckDetail] = useState(false);
+  const [checkAmount, setCheckAmount] = useState(false);
+  const [checkValue, setCheckValue] = useState(false);
 
   const formRef = useRef();
   const textareaRef = useRef();
@@ -19,15 +22,18 @@ const PostForm = ({ onSubmit }) => {
     formRef.current.reset();
   };
 
+
   const onChangeAmountHandler = (event) => {
+    setCheckAmount(Number(event.target.value) > 9);
     setAmount(event.target.value);
   };
 
   const onChangeDetailHandler = (event) => {
+    setCheckDetail(
+      event.target.value.split("").filter((el) => el !== " " && el !== "\n").length > 0
+    );
     setDetail(event.target.value);
   };
-
-  const checkValue = amount !== "" && detail !== "";
 
   const adjustTextareaHeight = () => {
     if (textareaRef.current) {
@@ -38,7 +44,8 @@ const PostForm = ({ onSubmit }) => {
 
   useEffect(() => {
     adjustTextareaHeight();
-  }, [detail]);
+    setCheckValue(checkDetail && checkAmount);
+  }, [detail, amount]);
 
   return (
     <form ref={formRef} className={classes.form} method="post">

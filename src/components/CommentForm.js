@@ -4,6 +4,7 @@ import classes from "./CommentForm.module.css";
 
 const CommentForm = ({ onSubmit }) => {
   const [detail, setDetail] = useState("");
+  const [checkValue, setCheckValue] = useState(false);
 
   const formRef = useRef();
   const textareaRef = useRef();
@@ -18,10 +19,12 @@ const CommentForm = ({ onSubmit }) => {
   };
 
   const onChangeDetailHandler = (event) => {
+    setCheckValue(
+      event.target.value.split("").filter((el) => el !== " " && el !== "\n").length > 0
+    );
     setDetail(event.target.value);
   };
 
-  const checkValue = detail !== "";
 
   const adjustTextareaHeight = () => {
     if (textareaRef.current) {

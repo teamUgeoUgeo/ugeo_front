@@ -1,5 +1,6 @@
 .comment {
   padding: 0.9375rem 0.3125rem 1.25rem;
+  position: relative;
 }
 
 li:not(:last-child) .comment {
@@ -30,4 +31,60 @@ li:not(:last-child) .comment {
 .date {
   color: #999;
   font-size: 0.875rem;
+}
+
+.edit {
+  position: absolute;
+  top: 0.625rem;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 0.3125rem 0.625rem;
+  border-radius: 5px;
+
+  display: flex;
+  flex-flow: row;
+  gap: 0.625rem;
+}
+
+.edit button {
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+.form {
+  border-bottom: 1px solid #ddd;
+  padding: 0 0 0.9375rem 0;
+}
+
+.form input[name="amount"] {
+  background: #f7f7f7;
+  width: 100%;
+  padding: 0.625rem;
+  border-radius: 0.3125rem;
+  border: none;
+}
+
+.form textarea[name="detail"] {
+  outline: none;
+  resize: none;
+  width: 100%;
+  padding: 0.625rem;
+  border: none;
+}
+
+.form .modify,
+.form .cancel {
+  padding: 0.3125rem 0.9375rem;
+  border-radius: 50px;
+}
+.form .modify {
+  margin: 0 0.4688rem 0 auto;
+}
+.form .cancel {
+  background: #bbb;
+}
+.form .cancel:hover {
+  background: #ccc;
 }

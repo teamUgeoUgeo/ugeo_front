@@ -1,11 +1,12 @@
 import PropTypes from "prop-types";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import classes from "./CommentForm.module.css";
 
 const CommentForm = ({ onSubmit }) => {
   const [detail, setDetail] = useState("");
 
   const formRef = useRef();
+  const textareaRef = useRef();
 
   const onSubmitHandler = () => {
     const commentData = {
@@ -22,9 +23,21 @@ const CommentForm = ({ onSubmit }) => {
 
   const checkValue = detail !== "";
 
+  const adjustTextareaHeight = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  };
+
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [detail]);
+
   return (
     <form ref={formRef} className={classes.form} method="post">
       <textarea
+        ref={textareaRef}
         name="detail"
         placeholder="댓글을 남겨보세요."
         maxLength={255}

@@ -22,6 +22,11 @@ const PostForm = ({ onSubmit }) => {
     formRef.current.reset();
   };
 
+  const preventSubmit = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
+  };
 
   const onChangeAmountHandler = (event) => {
     setCheckAmount(Number(event.target.value) > 9);
@@ -53,6 +58,7 @@ const PostForm = ({ onSubmit }) => {
         type="number"
         name="amount"
         placeholder="소비한 금액"
+        onKeyDown={() => preventSubmit(event)}
         onChange={onChangeAmountHandler}
       />
       <textarea

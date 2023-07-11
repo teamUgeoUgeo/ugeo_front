@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import classes from "./PostForm.module.css";
 
 const PostForm = ({ onSubmit }) => {
@@ -7,6 +7,7 @@ const PostForm = ({ onSubmit }) => {
   const [detail, setDetail] = useState("");
 
   const formRef = useRef();
+  const textareaRef = useRef();
 
   const onSubmitHandler = () => {
     const postData = {
@@ -28,6 +29,17 @@ const PostForm = ({ onSubmit }) => {
 
   const checkValue = amount !== "" && detail !== "";
 
+  const adjustTextareaHeight = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  };
+
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [detail]);
+
   return (
     <form ref={formRef} className={classes.form} method="post">
       <input
@@ -37,6 +49,7 @@ const PostForm = ({ onSubmit }) => {
         onChange={onChangeAmountHandler}
       />
       <textarea
+        ref={textareaRef}
         name="detail"
         placeholder="어디다 썼나요?"
         maxLength={255}

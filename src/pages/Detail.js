@@ -7,7 +7,7 @@ import classes from "../components/PageContent.module.css";
 import Post from "../components/Post";
 import Sidebar from "../components/Sidebar";
 import { getAuthToken, getUserInfo } from "../util/auth";
-import { createPost, getPost } from "../util/crud";
+import { createPost, deletePost, getPost, updatePost } from "../util/crud";
 
 const DetailPage = () => {
   const token = getAuthToken();
@@ -28,10 +28,10 @@ const DetailPage = () => {
     fetchData();
   }, [token]);
 
-  //   const handleDelete = async (id) => {
-  //     setData(data.filter((el) => el.id !== id));
-  //     await deletePost(`/api/article/${id}`, token);
-  //   };
+  const handleDelete = async (id) => {
+    setComment(comment.filter((el) => el.id !== id));
+    await deletePost(`/api/comment/${id}`, token);
+  };
 
   const handleSubmit = async (newComment) => {
     newComment = {
@@ -55,21 +55,21 @@ const DetailPage = () => {
     setComment([...comment, newComment]);
   };
 
-  //   const handleModify = async (postData) => {
-  //     setData(
-  //       data.map((el) => {
-  //         if (el.id === postData.article_id) {
-  //           el = {
-  //             ...el,
-  //             amount: postData.amount,
-  //             detail: postData.detail,
-  //           };
-  //         }
-  //         return el;
-  //       })
-  //     );
-  //     await updatePost("/api/article/", postData, token);
-  //   };
+  const handleModify = async (postData) => {
+    setComment(
+      comment.map((el) => {
+        if (el.id === postData.article_id) {
+          el = {
+            ...el,
+            amount: postData.amount,
+            detail: postData.detail,
+          };
+        }
+        return el;
+      })
+    );
+    await updatePost("/api/comment/", postData, token);
+  };
 
   return (
     <PageContent>
@@ -84,7 +84,7 @@ const DetailPage = () => {
               })}
               <div className={classes.comment_form}>
                 <CommentForm onSubmit={handleSubmit} />
-                <CommentList comment={comment} />
+                <CommentList comment={comment} onDelete={handleDelete} onModify={handleModify} />
               </div>
             </section>
           </div>

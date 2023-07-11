@@ -4,6 +4,7 @@ import classes from "./CommentForm.module.css";
 
 const CommentForm = ({ onSubmit }) => {
   const [detail, setDetail] = useState("");
+  const [focus, setFocus] = useState("");
   const [checkValue, setCheckValue] = useState(false);
 
   const formRef = useRef();
@@ -25,6 +26,9 @@ const CommentForm = ({ onSubmit }) => {
     setDetail(event.target.value);
   };
 
+  const onFocusHandler = () => {
+    setFocus(classes.focus);
+  };
 
   const adjustTextareaHeight = () => {
     if (textareaRef.current) {
@@ -42,8 +46,10 @@ const CommentForm = ({ onSubmit }) => {
       <textarea
         ref={textareaRef}
         name="detail"
+        className={focus}
         placeholder="댓글을 남겨보세요."
         maxLength={255}
+        onFocus={onFocusHandler}
         onChange={onChangeDetailHandler}
       ></textarea>
       <button

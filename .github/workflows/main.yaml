@@ -5,11 +5,8 @@ name: build docker image
 # Controls when the workflow will run
 on:
   push:
-    # branches:
-    #   - main
-    # Publish `v1.2.3` tags as releases.
     tags:
-      - v*
+      - dev-*
 
 
 jobs:
@@ -54,9 +51,20 @@ jobs:
           IMAGE_NAME=${{secrets.DOCKERHUB_ID}}/ugeo_front:$IMAGE_TAG
           echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
           echo "IMAGE_NAME=$IMAGE_NAME"
-          docker build -t $IMAGE_NAME .
+          docker build -t $IMAGE_NAME -f m1.Dockerfile .
           echo
       - name: Push container image
+        run: |
+          docker push $IMAGE_NAME
+          echo "Pushed container image: $IMAGE_NAME"
+      - name: Build container m1_image
+        run: |
+          IMAGE_NAME=${{secrets.DOCKERHUB_ID}}/ugeo_front:${IMAGE_TAG}_arm
+          echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
+          echo "IMAGE_NAME=$IMAGE_NAME"
+          docker build -t $IMAGE_NAME .
+          echo
+      - name: Push container m1_image
         run: |
           docker push $IMAGE_NAME
           echo "Pushed container image: $IMAGE_NAME"

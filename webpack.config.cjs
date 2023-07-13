@@ -1,14 +1,17 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+const isDevelopment = process.env.NODE_ENV !== "production";
+console.log(process.env.NODE_ENV, `, isDevelopment=${isDevelopment}`);
 
 module.exports = {
   entry: "./src/index.js",
-  mode: "development",
+  mode: isDevelopment ? "development" : "production",
   output: {
     path: path.resolve(__dirname, "dist"),
-    publicPath: "/",
     filename: "index_bundle.js",
+    publicPath: isDevelopment ? "/" : "",
+    clean: true,
   },
   target: "web",
   devServer: {
@@ -38,11 +41,17 @@ module.exports = {
       },
     ],
   },
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000,
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "public", "index.html"),
       scriptType: "text/javascript",
+      scriptLoading: "defer",
     }),
-    new ReactRefreshWebpackPlugin(),
-  ],
+    isDevelopment && new ReactRefreshWebpackPlugin(),
+  ].filter(Boolean),
 };

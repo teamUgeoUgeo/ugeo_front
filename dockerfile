@@ -11,10 +11,10 @@ WORKDIR /app
 COPY dist /app/out
 
 # host pc 의 nginx.conf 를 아래 경로에 복사
-COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx.conf /nginx.conf.template
 
 # 80 포트 오픈
 EXPOSE 80
 
 # container 실행 시 자동으로 실행할 command. nginx 시작함
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["/bin/sh" , "-c" , "envsubst '$BACKEND_URL' < /nginx.conf.template > /etc/nginx/nginx.conf && exec nginx -g 'daemon off;'"]

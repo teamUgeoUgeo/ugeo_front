@@ -39,18 +39,15 @@ const DetailPage = () => {
       article_id: currentId,
     };
 
-    await createPost("/api/comment/", newComment, token);
-    //상태코드 204로 response 없음 확인
+    const response = await createPost("/api/comment/", newComment, token);
 
     newComment = {
       ...newComment,
-      id: "백엔드에서 코멘트id 리턴 필요",
+      id: response.comment_id,
       nickname: user.nickname,
       username: user.username,
-      create_at: new Date().toISOString(),
+      create_at: response.created_at,
     };
-    //create_at의 경우에도 보통 리턴받아서 쓰는지?
-    //아니면 프론트에서 date객체 만들어도 되는지 확인이 필요합니다.
 
     setComment([...comment, newComment]);
   };

@@ -247,8 +247,13 @@ const LoginForm = () => {
       passwordConfirm: hashPassword(passwordConfirm),
     };
 
-    await register("/api/user/create", formData);
-    navigate("/create/complete", { forceRefresh: true });
+    const response = await register("/api/user/create", formData);
+
+    console.log(response === 204);
+
+    if (response === 204) {
+      navigate("/user/create/complete", { forceRefresh: true });
+    }
   };
 
   const resetValue = () => {
@@ -276,7 +281,6 @@ const LoginForm = () => {
         onSubmit={(event) => event.preventDefault()}
       >
         <h4 className={classes.title + " p-1"}>{isLogin ? "로그인" : "회원가입"}</h4>
-
         <div className={classes.input}>
           <label htmlFor="email">이메일</label>
           <input
@@ -289,7 +293,6 @@ const LoginForm = () => {
           />
           {emailMessage && <p className={classes.invalid}>{emailMessage}</p>}
         </div>
-
         {!isLogin && (
           <>
             <div className={classes.input}>
@@ -317,7 +320,6 @@ const LoginForm = () => {
             </div>
           </>
         )}
-
         <div className={classes.input}>
           <label htmlFor="password">비밀번호</label>
           <input
@@ -348,7 +350,6 @@ const LoginForm = () => {
         >
           {isLogin ? "로그인" : "회원가입"}
         </button>
-
         <Link
           className={classes.link}
           to={`/${isLogin ? "user/create" : "user/login"}`}

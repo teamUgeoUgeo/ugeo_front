@@ -49,7 +49,12 @@ export const login = async (url, body) => {
 };
 
 export const register = async (url, body) => {
-  await fetch(url, header(body));
+  try {
+    const response = await fetch(url, header(body));
+    return response.status;
+  } catch (error) {
+    return error.message;
+  }
 };
 
 export const logout = async () => {

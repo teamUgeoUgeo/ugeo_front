@@ -1,5 +1,5 @@
 import React from "react";
-import { getUserInfo } from "../util/auth";
+import { getUserInfo } from "../util/user";
 import classes from "./UserInfo.module.css";
 
 const UserInfo = () => {

@@ -7,10 +7,12 @@ import PostList from "../components/PostList";
 import Sidebar from "../components/Sidebar";
 import { getAuthToken } from "../util/auth";
 import { createPost, deletePost, getPost, updatePost } from "../util/crud";
+import { getUserInfo } from "../util/user";
 
 const HomePage = () => {
   const token = getAuthToken();
   const navigate = useNavigate();
+  const user = getUserInfo();
   const [data, setData] = useState([]);
 
   const fetchData = async () => {
@@ -34,6 +36,15 @@ const HomePage = () => {
   const handleSubmit = async (postData) => {
     const response = await createPost("/api/article/", postData, token);
     postData["id"] = response.article_id;
+
+    postData = {
+      ...postData,
+      id: response.article_id,
+      create_at: response.created_at,
+      username: user.username,
+      nickname: user.nickname,
+    };
+
     setData([postData, ...data]);
   };
 

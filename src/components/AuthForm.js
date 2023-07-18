@@ -249,8 +249,6 @@ const LoginForm = () => {
 
     const response = await register("/api/user/create", formData);
 
-    console.log(response === 204);
-
     if (response === 204) {
       navigate("/user/create/complete", { forceRefresh: true });
     }

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=development webpack serve --mode development --history-api-fallback ",
+    "start": "webpack serve --mode development --history-api-fallback ",
     "lint": "eslint .",
     "prettier": "prettier --write src/. ",
     "build": " NODE_ENV=production webpack --mode production",
@@ -15,7 +15,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "clean-webpack-plugin": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0"
@@ -29,7 +28,6 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.1",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "babel-loader": "^9.1.2",
     "crypto-js": "^4.1.1",
     "css-loader": "^6.7.3",
@@ -39,12 +37,9 @@
     "eslint-plugin-react": "^7.32.2",
     "html-webpack-plugin": "^5.5.1",
     "husky": "^8.0.3",
-    "install": "^0.13.0",
     "lint-staged": "^13.2.2",
-    "npm": "^9.6.4",
     "prettier": "2.8.8",
     "prop-types": "^15.8.1",
-    "react-refresh": "^0.14.0",
     "style-loader": "^3.3.2",
     "webpack": "^5.79.0",
     "webpack-cli": "^5.0.1",

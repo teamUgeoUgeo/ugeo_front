@@ -21,6 +21,7 @@ module.exports = {
     allowedHosts: "all",
     historyApiFallback: true,
   },
+  devtool: isDevelopment ? "source-map" : false,
   watchOptions: {
     poll: true,
     ignored: "/node_modules",

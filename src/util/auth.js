@@ -1,4 +1,6 @@
-const header = (body) => {
+import CryptoJS from "crypto-js";
+
+export const header = (body) => {
   return {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -22,6 +24,11 @@ export const checkExist = async (url, body) => {
   } catch (error) {
     return error.message;
   }
+};
+
+export const hashPassword = (password) => {
+  const hashedPassword = CryptoJS.SHA3(password).toString();
+  return hashedPassword;
 };
 
 export const login = async (url, body) => {

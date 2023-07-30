@@ -1,250 +1,145 @@
-import CryptoJS from "crypto-js";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { checkExist, login, register } from "../util/auth";
+import { DATA_TYPE, INPUT_TYPE } from "../constants/dataTypes";
+import UserinfoContext from "../contexts/UserinfoContext";
+import useCheck from "../hooks/useCheck";
+import { checkExist, hashPassword, login, register } from "../util/auth";
 import classes from "./AuthForm.module.css";
 
 const LoginForm = () => {
   const navigate = useNavigate();
-
+  const { setUser } = useContext(UserinfoContext);
   const currentPath = window.location.pathname;
-  const isLogin = currentPath == "/user/login";
-  const [active, setActive] = useState(false);
+  const isLogin = currentPath === "/user/login";
+  const [isActive, setIsActive] = useState(false);
+  const initialState = { value: "", isValid: false, message: "" };
 
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [nickname, setNickname] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
-
-  const [isValidEmail, setIsValidEmail] = useState(false);
-  const [isValidUsername, setIsValidUsername] = useState(false);
-  const [isValidNickname, setIsValidNickname] = useState(false);
-  const [isValidPassword, setIsValidPassword] = useState(false);
-  const [isValidPasswordConfirm, setIsValidPasswordConfirm] = useState(false);
-
-  const [emailMessage, setEmailMessage] = useState("");
-  const [usernameMessage, setUsernameMessage] = useState("");
-  const [nicknameMessage, setNicknameMessage] = useState("");
-  const [passwordMessage, setPasswordMessage] = useState("");
-  const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("");
+  const { field: email, setField: setEmail, checkValue: checkEmail } = useCheck(initialState);
+  const {
+    field: username,
+    setField: setUsername,
+    checkValue: checkUsername,
+  } = useCheck(initialState);
+  const {
+    field: nickname,
+    setField: setNickname,
+    checkValue: checkNickname,
+  } = useCheck(initialState);
+  const {
+    field: password,
+    setField: setPassword,
+    checkValue: checkPassword,
+  } = useCheck(initialState);
+  const {
+    field: confirmPassword,
+    setField: setConfirmPassword,
+    checkValue: checkConfirmPassword,
+  } = useCheck(initialState);
 
   const formRef = useRef();
 
-  const isEmail = function (value) {
-    const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return pattern.test(value);
+  const onChangeHandler = (event) => {
+    switch (event.target.name) {
+      case DATA_TYPE.email:
+        checkEmail(event);
+        break;
+      case DATA_TYPE.username:
+        checkUsername(event);
+        break;
+      case DATA_TYPE.nickname:
+        checkNickname(event);
+        break;
+      case DATA_TYPE.password:
+        checkPassword(event);
+        break;
+      case DATA_TYPE.confirmPassword:
+        checkConfirmPassword(event);
+        break;
+      default:
+        break;
+    }
   };
 
-  const isMoreThan4Length = function (value) {
-    return value.length >= 4;
-  };
-
-  const islessThan8Length = function (value) {
-    return value.length < 9;
-  };
-
-  const islessThan16Length = function (value) {
-    return value.length < 17;
-  };
-
-  const isEmpty = function (value) {
-    return value.length < 1;
-  };
-
-  const checkEmail = function (value) {
-    if (isEmpty(value)) {
-      setEmailMessage("");
-      setIsValidEmail(false);
+  const onBlurHandler = async (event) => {
+    if ((isLogin || !email.isValid) && (isLogin || !username.isValid)) {
       return;
     }
 
-    if (!isEmail(value)) {
-      setEmailMessage("정확한 이메일을 입력해 주세요.");
-      setIsValidEmail(false);
-      return;
-    }
-
-    setEmailMessage("");
-    setIsValidEmail(true);
-  };
-
-  const checkUsername = function (value) {
-    if (isEmpty(value)) {
-      setUsernameMessage("");
-      setIsValidUsername(false);
-      return;
-    }
-
-    if (!isMoreThan4Length(value)) {
-      setUsernameMessage("4자 이상의 id를 입력해주세요.");
-      setIsValidUsername(false);
-      return;
-    }
-
-    setUsernameMessage("");
-    setIsValidUsername(true);
-  };
-
-  const checkNickname = function (value) {
-    if (isEmpty(value)) {
-      setNicknameMessage("");
-      setIsValidNickname(false);
-      return;
-    }
-
-    if (!islessThan8Length(value)) {
-      setNicknameMessage("8자 이하로 입력해 주세요.");
-      setIsValidNickname(false);
-      return;
-    }
-
-    setNicknameMessage("");
-    setIsValidNickname(true);
-  };
-
-  const checkPassword = function (value) {
-    if (isEmpty(value)) {
-      setPasswordMessage("");
-      setIsValidPassword(false);
-      return;
-    }
-
-    if (!islessThan16Length(value)) {
-      setPasswordMessage("16자 이하로 입력해 주세요.");
-      setIsValidPassword(false);
-      return;
-    }
-    setPasswordMessage("");
-    setIsValidPassword(true);
-  };
-
-  const checkPasswordConfirm = function (value) {
-    if (isEmpty(value)) {
-      setPasswordConfirmMessage("");
-      setIsValidPasswordConfirm(false);
-      return;
-    }
-
-    if (password !== value) {
-      setPasswordConfirmMessage("입력한 비밀번호와 다릅니다.");
-      setIsValidPasswordConfirm(false);
-      return;
-    }
-
-    setPasswordConfirmMessage("");
-    setIsValidPasswordConfirm(true);
-  };
-
-  const onChangeUsernameHandler = (event) => {
     const value = event.target.value;
-    setUsername(value);
-    checkUsername(value);
-  };
+    const formData = { [event.target.name]: value };
 
-  const onChangeEmailHandler = (event) => {
-    const value = event.target.value;
-    setEmail(value);
-    checkEmail(value);
-  };
+    let response;
+    switch (event.target.name) {
+      case DATA_TYPE.email:
+        response = await checkExist("/api/user/check_email", formData);
 
-  const onChangeNicknameHandler = (event) => {
-    const value = event.target.value;
-    setNickname(value);
-    checkNickname(value);
-  };
+        setEmail({ ...email, message: response });
+        break;
+      case DATA_TYPE.username:
+        response = await checkExist("/api/user/check_username", formData);
 
-  const onChangePasswordHandler = (event) => {
-    const value = event.target.value;
-    setPassword(value);
-    checkPassword(value);
-  };
-
-  const onChangeConfirmPasswordHandler = (event) => {
-    const value = event.target.value;
-    setPasswordConfirm(value);
-    checkPasswordConfirm(value);
-  };
-
-  const onBlurEmailHandler = async (event) => {
-    if (isLogin || !isValidEmail) {
-      return;
+        setUsername({ ...username, message: response });
+        break;
+      default:
+        break;
     }
-
-    const formData = {};
-    formData[`${event.target.name}`] = event.target.value;
-
-    const response = await checkExist("/api/user/check_email", formData);
-    setEmailMessage(response);
   };
 
-  const onBlurUsernameHandler = async (event) => {
-    if (isLogin || !isValidUsername) {
-      return;
-    }
-
-    const formData = {};
-    formData[`${event.target.name}`] = event.target.value;
-
-    const response = await checkExist("/api/user/check_username", formData);
-    setUsernameMessage(response);
-  };
-
-  const hashPassword = (password) => {
-    const hashedPassword = CryptoJS.SHA3(password).toString();
-    return hashedPassword;
-  };
-
-  const checkValue = () => {
+  const checkAll = () => {
     if (
-      (isLogin && isValidEmail && isValidPassword) ||
+      (isLogin && email.isValid && password.isValid) ||
       (!isLogin &&
-        isValidEmail &&
-        isValidPassword &&
-        isValidUsername &&
-        isValidNickname &&
-        isValidPasswordConfirm)
+        email.isValid &&
+        password.isValid &&
+        username.isValid &&
+        nickname.isValid &&
+        confirmPassword.isValid)
     ) {
-      setActive(true);
+      setIsActive(true);
     } else {
-      setActive(false);
+      setIsActive(false);
     }
   };
 
   useEffect(() => {
-    checkValue();
-  }, [email, password, username, nickname, passwordConfirm]);
+    checkAll();
+  }, [email, password, username, nickname, confirmPassword]);
 
   const onLoginHandler = async () => {
-    if (!active) {
+    if (!isActive) {
       return;
     }
 
     const formData = {
-      email,
-      password: hashPassword(password),
+      email: email.value,
+      password: hashPassword(password.value),
     };
 
     const response = await login("/api/user/login", formData);
 
     if (response !== 200) {
-      setEmailMessage(response);
+      setEmail({ ...email, message: response });
     } else {
+      setUser({
+        email: localStorage.getItem("email"),
+        username: localStorage.getItem("username"),
+        nickname: localStorage.getItem("nickname"),
+      });
+
       navigate("/", { forceRefresh: true });
     }
   };
 
   const onRegisterHandler = async () => {
-    if (!active) {
+    if (!isActive) {
       return;
     }
 
     const formData = {
-      email,
-      username,
-      nickname,
-      password: hashPassword(password),
-      passwordConfirm: hashPassword(passwordConfirm),
+      email: email.value,
+      username: username.value,
+      nickname: nickname.value,
+      password: hashPassword(password.value),
     };
 
     const response = await register("/api/user/create", formData);
@@ -256,94 +151,87 @@ const LoginForm = () => {
 
   const resetValue = () => {
     formRef.current.reset();
-
-    setUsername("");
-    setEmail("");
-    setNickname("");
-    setPassword("");
-    setPasswordConfirm("");
-
-    setUsernameMessage("");
-    setEmailMessage("");
-    setNicknameMessage("");
-    setPasswordMessage("");
-    setPasswordConfirmMessage("");
+    setEmail(initialState);
+    setUsername(initialState);
+    setNickname(initialState);
+    setPassword(initialState);
+    setConfirmPassword(initialState);
   };
 
   return (
     <>
-      <form
-        className={classes.form}
-        method="post"
-        ref={formRef}
-        onSubmit={(event) => event.preventDefault()}
-      >
+      <form className={classes.form} ref={formRef} onSubmit={(event) => event.preventDefault()}>
         <h4 className={classes.title + " p-1"}>{isLogin ? "로그인" : "회원가입"}</h4>
         <div className={classes.input}>
-          <label htmlFor="email">이메일</label>
+          <label htmlFor={DATA_TYPE.email}>이메일</label>
           <input
-            type="text"
-            className={emailMessage && classes.invalid}
-            id="email"
-            name="email"
-            onChange={onChangeEmailHandler}
-            onBlur={onBlurEmailHandler}
+            type={INPUT_TYPE.text}
+            className={!isLogin && email.message && classes.invalid}
+            id={DATA_TYPE.email}
+            name={DATA_TYPE.email}
+            autoComplete={isLogin ? "on" : "off"}
+            onChange={onChangeHandler}
+            onBlur={onBlurHandler}
           />
-          {emailMessage && <p className={classes.invalid}>{emailMessage}</p>}
+          {!isLogin && email.message && <p className={classes.invalid}>{email.message}</p>}
         </div>
         {!isLogin && (
           <>
             <div className={classes.input}>
-              <label htmlFor="username">사용자 아이디</label>
+              <label htmlFor={DATA_TYPE.username}>사용자 아이디</label>
               <input
-                type="username"
-                className={usernameMessage && classes.invalid}
-                id="username"
-                name="username"
-                onChange={onChangeUsernameHandler}
-                onBlur={onBlurUsernameHandler}
+                type={INPUT_TYPE.text}
+                className={username.message && classes.invalid}
+                id={DATA_TYPE.username}
+                name={DATA_TYPE.username}
+                autoComplete={isLogin ? "on" : "off"}
+                onChange={onChangeHandler}
+                onBlur={onBlurHandler}
               />
-              {usernameMessage && <p className={classes.invalid}>{usernameMessage}</p>}
+              {username.message && <p className={classes.invalid}>{username.message}</p>}
             </div>
             <div className={classes.input}>
-              <label htmlFor="nickname">닉네임</label>
+              <label htmlFor={DATA_TYPE.nickname}>닉네임</label>
               <input
-                type="nickname"
-                className={nicknameMessage && classes.invalid}
-                id="nickname"
-                name="nickname"
-                onChange={onChangeNicknameHandler}
+                type={INPUT_TYPE.text}
+                className={nickname.message && classes.invalid}
+                id={DATA_TYPE.nickname}
+                name={DATA_TYPE.nickname}
+                onChange={onChangeHandler}
               />
-              {nicknameMessage && <p className={classes.invalid}>{nicknameMessage}</p>}
+              {nickname.message && <p className={classes.invalid}>{nickname.message}</p>}
             </div>
           </>
         )}
         <div className={classes.input}>
-          <label htmlFor="password">비밀번호</label>
+          <label htmlFor={DATA_TYPE.password}>비밀번호</label>
           <input
-            type="password"
-            className={passwordMessage && classes.invalid}
-            id="password"
-            name="password"
-            onChange={onChangePasswordHandler}
+            type={INPUT_TYPE.password}
+            className={password.message && classes.invalid}
+            id={DATA_TYPE.password}
+            name={DATA_TYPE.password}
+            onChange={onChangeHandler}
           />
-          {passwordMessage && <p className={classes.invalid}>{passwordMessage}</p>}
+          {!isLogin && password.message && <p className={classes.invalid}>{password.message}</p>}
         </div>
         {!isLogin && (
           <div className={classes.input}>
-            <label htmlFor="password">비밀번호 확인</label>
+            <label htmlFor={DATA_TYPE.confirmPassword}>비밀번호 확인</label>
             <input
-              type="password"
-              className={passwordConfirmMessage && classes.invalid}
-              id="password-conform"
-              name="password"
-              onChange={onChangeConfirmPasswordHandler}
+              type={INPUT_TYPE.password}
+              className={confirmPassword.message && classes.invalid}
+              id={DATA_TYPE.confirmPassword}
+              name={DATA_TYPE.confirmPassword}
+              onChange={onChangeHandler}
             />
-            {passwordConfirmMessage && <p className={classes.invalid}>{passwordConfirmMessage}</p>}
+            {confirmPassword.message && (
+              <p className={classes.invalid}>{confirmPassword.message}</p>
+            )}
           </div>
         )}
         <button
-          className={`${!active ? `${classes.block}` : ""} ${classes.button} default`}
+          type="submit"
+          className={`${classes.button} ${!isActive ? "disabled" : ""} default`}
           onClick={isLogin ? onLoginHandler : onRegisterHandler}
         >
           {isLogin ? "로그인" : "회원가입"}

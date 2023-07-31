@@ -160,14 +160,14 @@ const Post = ({ data, onDelete, onModify }) => {
           <div className="flex-row">
             <button
               type="button"
-              className={`${classes.modify} default`}
+              className={`${classes.modify} default round`}
               onClick={() => onCompleteModifyHandler(data)}
             >
               수정
             </button>
             <button
               type="button"
-              className={`${classes.cancel} default`}
+              className={`${classes.cancel} default round`}
               onClick={onCancelModifyHandler}
             >
               취소

@@ -73,6 +73,11 @@ main button.default {
   border-radius: 10px;
   transition: 0.2s;
 }
+
+main .default.round {
+  border-radius: 100px;
+}
+
 main button.default:hover,
 main .link:hover {
   background-color: #37b76e;

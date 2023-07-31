@@ -71,7 +71,7 @@ const PostForm = ({ onSubmit }) => {
       <button
         disabled={checkValue ? false : true}
         type="button"
-        className={`${classes.button} ${checkValue ? "" : `disabled`} default`}
+        className={`${classes.button} ${checkValue ? "" : `disabled`} default round`}
         onClick={onSubmitHandler}
       >
         등록하기

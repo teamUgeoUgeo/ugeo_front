@@ -9,8 +9,8 @@ const UserInfo = () => {
   return (
     <div className={classes.userinfo}>
       <span className={classes.profileimg}></span>
-      <span className={classes.username}>{user.username}</span>
-      <span className={classes.nickname}>@{user.nickname}</span>
+      <span className={classes.nickname}>{user.nickname}</span>
+      <span className={classes.username}>@{user.username}</span>
       {/* <div className={classes.amount}>
         <span>이번달 쓴 금액 : </span>
         <span> 000,000</span>

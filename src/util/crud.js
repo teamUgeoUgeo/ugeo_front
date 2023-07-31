@@ -12,7 +12,7 @@ export const getPost = async (url, token) => {
     });
 
     if (response.status === 401) {
-      throw new Error("토큰을 찾을 수 없습니다.");
+      throw new Error("접근 권한이 없습니다.");
     }
 
     const data = await response.json();

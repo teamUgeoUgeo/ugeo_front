@@ -1,0 +1,33 @@
+.title {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+.dropdown_box {
+  background: #fff;
+  border-radius: 0.625rem;
+  display: flex;
+  flex-flow: column;
+  margin: 0 0 1.25rem;
+  padding: 0.9375rem;
+  transition: 0.3s;
+  overflow: hidden;
+  gap: 0;
+}
+.dropdown {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.dropdown_content {
+  overflow: hidden;
+  display: flex;
+  transition: 0.3s;
+  max-height: 0;
+}
+.dropdown svg {
+  transition: 0.3s;
+}
+.active svg {
+  transform: rotate(-180deg);
+}

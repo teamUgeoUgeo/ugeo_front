@@ -1,13 +1,32 @@
-import { header } from "./crud";
+import { DATA_TYPE } from "../constants/dataTypes";
 
-export const getUserInfo = () => {
-  const email = localStorage.getItem("email");
-  const username = localStorage.getItem("username");
-  const nickname = localStorage.getItem("nickname");
-
+const header = (token) => {
   return {
-    email,
-    username,
-    nickname,
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
   };
+};
+
+export const updateUserInfo = async (url, body, token) => {
+  try {
+    const response = await fetch(url, {
+      method: "PATCH",
+      headers: header(token),
+      body: JSON.stringify(body),
+    });
+
+    if (response.status === 401) {
+      throw new Error("접근 권한이 없습니다.");
+    }
+
+    const key = Object.keys(body).join();
+
+    if (key !== DATA_TYPE.password) {
+      localStorage.setItem(key, Object.values(body).join());
+    }
+
+    return response;
+  } catch (error) {
+    return error.message;
+  }
 };

@@ -1,0 +1,47 @@
+.input {
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin: 0 0 0.3125rem;
+}
+.input label {
+  padding: 0.3125rem 0 0;
+}
+.input .field {
+  width: 70%;
+  display: flex;
+  flex-flow: column;
+  position: relative;
+}
+.field input {
+  width: 100%;
+  border: none;
+  padding: 0.3125rem;
+  border-radius: 5px;
+}
+.input input:focus {
+  background: #f7f7f7;
+}
+.input button {
+  border: none;
+  background: #2eab64;
+  color: #fff;
+  padding: 0.3125rem;
+  border-radius: 3px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+}
+.input button.display {
+  display: block;
+  opacity: 1;
+  pointer-events: visible;
+}
+.invalid {
+  color: rgb(240, 66, 66);
+}

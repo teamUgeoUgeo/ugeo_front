@@ -7,7 +7,6 @@
   gap: 0.625rem;
   margin: 0 0 1.25rem;
   padding: 0.9375rem;
-  font-family: p;
 }
 
 .form input {
@@ -39,5 +38,4 @@
 .form .button {
   padding: 0.625rem 1.25rem;
   display: inline;
-  border-radius: 50px;
 }

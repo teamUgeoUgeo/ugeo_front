@@ -90,7 +90,6 @@
 .form .modify,
 .form .cancel {
   padding: 0.3125rem 0.9375rem;
-  border-radius: 50px;
 }
 .form .modify {
   margin: 0 0.4688rem 0 auto;

@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PageContent from "../components/PageContent";
 import classes from "../components/PageContent.module.css";
 import PostForm from "../components/PostForm";
 import PostList from "../components/PostList";
 import Sidebar from "../components/Sidebar";
+import UserinfoContext from "../contexts/UserinfoContext";
 import { getAuthToken } from "../util/auth";
 import { createPost, deletePost, getPost, updatePost } from "../util/crud";
-import { getUserInfo } from "../util/user";
 
 const HomePage = () => {
   const token = getAuthToken();
   const navigate = useNavigate();
-  const user = getUserInfo();
+  const { user } = useContext(UserinfoContext);
   const [data, setData] = useState([]);
 
   const fetchData = async () => {

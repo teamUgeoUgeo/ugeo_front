@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import CommentForm from "../components/CommentForm";
 import CommentList from "../components/CommentList";
@@ -6,13 +6,14 @@ import PageContent from "../components/PageContent";
 import classes from "../components/PageContent.module.css";
 import Post from "../components/Post";
 import Sidebar from "../components/Sidebar";
+import UserinfoContext from "../contexts/UserinfoContext";
+
 import { getAuthToken } from "../util/auth";
 import { createPost, deletePost, getPost, updatePost } from "../util/crud";
-import { getUserInfo } from "../util/user";
 
 const DetailPage = () => {
   const token = getAuthToken();
-  const user = getUserInfo();
+  const { user } = useContext(UserinfoContext);
   const [post, setPost] = useState([]);
   const [comment, setComment] = useState([]);
   const currentPath = window.location.pathname.split("/");

@@ -1,9 +1,10 @@
-import React from "react";
-import { getUserInfo } from "../util/user";
+import React, { useContext } from "react";
+import UserinfoContext from "../contexts/UserinfoContext";
+
 import classes from "./UserInfo.module.css";
 
 const UserInfo = () => {
-  const user = getUserInfo();
+  const { user } = useContext(UserinfoContext);
 
   return (
     <div className={classes.userinfo}>

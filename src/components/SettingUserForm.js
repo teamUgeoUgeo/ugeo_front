@@ -1,5 +1,6 @@
 import { DATA_TYPE } from "../constants/dataTypes";
 import { SETTING_TITLE } from "../pages/Setting";
+import SettingPasswordInput from "./SettingPasswordInput";
 import classes from "./SettingUserForm.module.css";
 import SettingUserInput from "./SettingUserInput";
 
@@ -16,8 +17,7 @@ const SettingUserForm = ({ title }) => {
 
       {title === SETTING_TITLE.password && (
         <>
-          <SettingUserInput title="비밀번호" dataType={DATA_TYPE.password} />
-          <SettingUserInput title="비밀번호 확인" dataType={DATA_TYPE.confirmPassword} />
+          <SettingPasswordInput />
         </>
       )}
     </form>

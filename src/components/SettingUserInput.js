@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
 import { DATA_TYPE, INPUT_TYPE } from "../constants/dataTypes";
+import DropBoxContext from "../contexts/DropBoxContext";
 import UserinfoContext from "../contexts/UserinfoContext";
 import useCheck from "../hooks/useCheck";
-import { checkExist, getAuthToken, hashPassword } from "../util/auth";
+import { checkExist, getAuthToken } from "../util/auth";
 import { updateUserInfo } from "../util/user";
 import { isSame } from "../util/validation";
 import classes from "./SettingUserInput.module.css";
@@ -10,6 +11,7 @@ import classes from "./SettingUserInput.module.css";
 const UpdateUserinfoInput = ({ title, dataType }) => {
   const token = getAuthToken();
   const { user, setUser } = useContext(UserinfoContext);
+  const { setIsChanged } = useContext(DropBoxContext);
   const initialState = { isValid: false, message: "" };
   const initialValue = user[dataType] || "";
   const { field, setField, checkValue } = useCheck({ ...initialState, value: initialValue });
@@ -19,10 +21,6 @@ const UpdateUserinfoInput = ({ title, dataType }) => {
   const onChangeHandler = (event) => {
     const value = event.target.value;
     const checked = checkValue(event);
-
-    if (dataType === DATA_TYPE.password) {
-      return;
-    }
 
     if (isSame(value, initialValue)) {
       setField({
@@ -34,7 +32,7 @@ const UpdateUserinfoInput = ({ title, dataType }) => {
       return;
     }
 
-    if (event.target === document.activeElement && checked && dataType !== DATA_TYPE.password) {
+    if (event.target === document.activeElement && checked) {
       setDisplayButton(event.target.name);
     } else {
       setDisplayButton("");
@@ -42,10 +40,6 @@ const UpdateUserinfoInput = ({ title, dataType }) => {
   };
 
   const onBlurHandler = () => {
-    if (dataType === DATA_TYPE.password) {
-      return;
-    }
-
     if (!isBlurAllowed) {
       setIsBlurAllowed(true);
       return;
@@ -60,10 +54,6 @@ const UpdateUserinfoInput = ({ title, dataType }) => {
 
     let formData = { [dataType]: field.value };
 
-    if (dataType === DATA_TYPE.confirmPassword) {
-      formData = { [DATA_TYPE.password]: hashPassword(field.value) };
-    }
-
     let checkExistRes;
     switch (dataType) {
       case DATA_TYPE.email:
@@ -77,14 +67,16 @@ const UpdateUserinfoInput = ({ title, dataType }) => {
     }
     if (checkExistRes) {
       setField({ ...field, value: initialValue, message: checkExistRes });
+      setIsChanged(checkExistRes);
       setDisplayButton("");
       return;
     }
 
-    const submitRes = await updateUserInfo("/api/user", formData, token);
+    const submitRes = await updateUserInfo("/api/user/info", formData, token);
 
     if (!submitRes.ok) {
       setField({ ...field, value: initialValue, message: submitRes });
+      setIsChanged(submitRes);
       setDisplayButton("");
       return;
     }
@@ -97,11 +89,7 @@ const UpdateUserinfoInput = ({ title, dataType }) => {
       <label htmlFor={dataType}>{title}</label>
       <div className={classes.field}>
         <input
-          type={
-            dataType === DATA_TYPE.password || dataType === DATA_TYPE.confirmPassword
-              ? INPUT_TYPE.password
-              : INPUT_TYPE.text
-          }
+          type={INPUT_TYPE.text}
           id={dataType}
           name={dataType}
           value={field.value}
@@ -110,7 +98,7 @@ const UpdateUserinfoInput = ({ title, dataType }) => {
         <button
           type={INPUT_TYPE.submit}
           onMouseDown={onUpdateHandler}
-          className={displayButton === dataType ? classes.display : ""}
+          className={displayButton === dataType ? classes.display : null}
         >
           변경
         </button>

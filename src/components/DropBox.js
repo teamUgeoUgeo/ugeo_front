@@ -1,12 +1,14 @@
 import MoreIcon from "@mui/icons-material/ExpandMoreRounded";
-import React, { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import DropBoxContext from "../contexts/DropBoxContext";
 import classes from "./DropBox.module.css";
 
 const DropBox = ({ title, children }) => {
   const contentRef = useRef(null);
   const [isOpen, setisOpen] = useState(false);
-  const [isChanged, setIsChanged] = useState(null);
   const [contentHeight, setContentHeight] = useState(0);
+
+  const { isChanged, changeHandler } = useContext(DropBoxContext);
 
   const onOpendropboxHandler = () => {
     if (!isOpen) {
@@ -18,8 +20,8 @@ const DropBox = ({ title, children }) => {
     setisOpen(!isOpen);
   };
 
-  const onChangeHeightHandler = (event) => {
-    setIsChanged(event.target.value);
+  const onChangeHandler = (event) => {
+    changeHandler(event);
   };
 
   useEffect(() => {
@@ -36,7 +38,7 @@ const DropBox = ({ title, children }) => {
           <MoreIcon />
         </div>
         <div
-          onChange={onChangeHeightHandler}
+          onChange={onChangeHandler}
           ref={contentRef}
           style={{ maxHeight: `${contentHeight}` }}
           className={`${classes.dropdown_content} `}

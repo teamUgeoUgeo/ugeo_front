@@ -3,6 +3,7 @@ export const DATA_TYPE = Object.freeze({
   username: "username",
   nickname: "nickname",
   password: "password",
+  currentPassword: "current-password",
   confirmPassword: "confirm-password",
 });
 

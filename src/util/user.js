@@ -1,5 +1,3 @@
-import { DATA_TYPE } from "../constants/dataTypes";
-
 const header = (token) => {
   return {
     Authorization: `Bearer ${token}`,
@@ -19,9 +17,13 @@ export const updateUserInfo = async (url, body, token) => {
       throw new Error("접근 권한이 없습니다.");
     }
 
-    const key = Object.keys(body).join();
+    if (response.status === 400) {
+      throw new Error("비밀번호가 일치하지 않습니다.");
+    }
 
-    if (key !== DATA_TYPE.password) {
+    const key = Object.keys(body);
+
+    if (!key.includes("new_password")) {
       localStorage.setItem(key, Object.values(body).join());
     }
 

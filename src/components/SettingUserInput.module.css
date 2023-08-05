@@ -24,6 +24,9 @@
 .input input:focus {
   background: #f7f7f7;
 }
+.field input[type="password"]::placeholder {
+  color: #ccc;
+}
 .input button {
   border: none;
   background: #2eab64;

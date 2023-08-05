@@ -166,7 +166,7 @@ const LoginForm = () => {
           <label htmlFor={DATA_TYPE.email}>이메일</label>
           <input
             type={INPUT_TYPE.text}
-            className={!isLogin && email.message && classes.invalid}
+            className={!isLogin && email.message ? classes.invalid : null}
             id={DATA_TYPE.email}
             name={DATA_TYPE.email}
             autoComplete={isLogin ? "on" : "off"}

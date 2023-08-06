@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { DATA_TYPE, INPUT_TYPE } from "../constants/dataTypes";
+import { DATA_TYPE, ERROR_MESSAGE, INPUT_TYPE } from "../constants/dataTypes";
 import UserinfoContext from "../contexts/UserinfoContext";
 import useCheck from "../hooks/useCheck";
 import { checkExist, hashPassword, login, register } from "../util/auth";
@@ -61,7 +61,7 @@ const LoginForm = () => {
   };
 
   const onBlurHandler = async (event) => {
-    if ((isLogin || !email.isValid) && (isLogin || !username.isValid)) {
+    if (isLogin) {
       return;
     }
 
@@ -71,11 +71,17 @@ const LoginForm = () => {
     let response;
     switch (event.target.name) {
       case DATA_TYPE.email:
+        if (!email.isValid) {
+          return;
+        }
         response = await checkExist("/api/user/check_email", formData);
 
         setEmail({ ...email, message: response });
         break;
       case DATA_TYPE.username:
+        if (!username.isValid) {
+          return;
+        }
         response = await checkExist("/api/user/check_username", formData);
 
         setUsername({ ...username, message: response });
@@ -173,7 +179,9 @@ const LoginForm = () => {
             onChange={onChangeHandler}
             onBlur={onBlurHandler}
           />
-          {!isLogin && email.message && <p className={classes.invalid}>{email.message}</p>}
+          {(!isLogin || email.message === ERROR_MESSAGE.invalidLogin) && (
+            <p className={classes.invalid}>{email.message}</p>
+          )}
         </div>
         {!isLogin && (
           <>
@@ -207,7 +215,7 @@ const LoginForm = () => {
           <label htmlFor={DATA_TYPE.password}>비밀번호</label>
           <input
             type={INPUT_TYPE.password}
-            className={password.message && classes.invalid}
+            className={!isLogin && password.message ? classes.invalid : null}
             id={DATA_TYPE.password}
             name={DATA_TYPE.password}
             onChange={onChangeHandler}

@@ -1,3 +1,5 @@
+import { ERROR_MESSAGE } from "../constants/dataTypes";
+
 const header = (token) => {
   return {
     Authorization: `Bearer ${token}`,
@@ -14,11 +16,11 @@ export const updateUserInfo = async (url, body, token) => {
     });
 
     if (response.status === 401) {
-      throw new Error("접근 권한이 없습니다.");
+      throw new Error(ERROR_MESSAGE.notAuthorized);
     }
 
     if (response.status === 400) {
-      throw new Error("비밀번호가 일치하지 않습니다.");
+      throw new Error(ERROR_MESSAGE.invalidPassword);
     }
 
     const key = Object.keys(body);

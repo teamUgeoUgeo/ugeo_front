@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DATA_TYPE } from "../constants/dataTypes";
+import { DATA_TYPE, VALIDATION_MESSAGE } from "../constants/dataTypes";
 import { isEmail, isEmpty, isLengthInRange } from "../util/validation";
 
 const useCheck = (initialState) => {
@@ -19,31 +19,29 @@ const useCheck = (initialState) => {
           setField({
             value: value,
             isValid: false,
-            message: "정확한 이메일을 입력해 주세요.",
+            message: VALIDATION_MESSAGE.email,
           });
           return;
         }
 
-        setField({ value: value, isValid: true, message: "" });
         break;
       case DATA_TYPE.username:
         if (!isLengthInRange(value, 4, 16)) {
           setField({
             value: value,
             isValid: false,
-            message: "4~16자 내로 입력해주세요.",
+            message: VALIDATION_MESSAGE.username,
           });
           return;
         }
 
-        setField({ value: value, isValid: true, message: "" });
         break;
       case DATA_TYPE.nickname:
         if (!isLengthInRange(value, 2, 8)) {
           setField({
             value: value,
             isValid: false,
-            message: "1~8자 이내로 입력해 주세요",
+            message: VALIDATION_MESSAGE.nickname,
           });
           return;
         }
@@ -54,7 +52,7 @@ const useCheck = (initialState) => {
           setField({
             value: value,
             isValid: false,
-            message: "4~16자 이내로 입력해주세요",
+            message: VALIDATION_MESSAGE.password,
           });
           return;
         }
@@ -65,7 +63,7 @@ const useCheck = (initialState) => {
           setField({
             value: value,
             isValid: false,
-            message: "입력한 비밀번호와 다릅니다.",
+            message: VALIDATION_MESSAGE.confirmPassword,
           });
           return;
         }

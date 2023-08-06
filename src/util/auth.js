@@ -1,4 +1,5 @@
 import CryptoJS from "crypto-js";
+import { ERROR_MESSAGE } from "../constants/dataTypes";
 
 export const header = (body) => {
   return {
@@ -15,10 +16,10 @@ export const checkExist = async (url, body) => {
 
     if (response.status === 409) {
       if (keyname === "email") {
-        throw new Error("사용중인 이메일 입니다.");
+        throw new Error(ERROR_MESSAGE.existEmail);
       }
       if (keyname === "username") {
-        throw new Error("사용중인 사용자 아이디 입니다.");
+        throw new Error(ERROR_MESSAGE.existUsername);
       }
     }
   } catch (error) {
@@ -36,7 +37,7 @@ export const login = async (url, body) => {
     const response = await fetch(url, header(body));
 
     if (response.status === 401) {
-      throw new Error("아이디, 또는 비밀번호가 일치하지 않습니다");
+      throw new Error(ERROR_MESSAGE.invalidLogin);
     }
 
     const data = await response.json();

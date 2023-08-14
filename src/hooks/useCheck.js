@@ -5,7 +5,7 @@ import { isEmail, isEmpty, isLengthInRange } from "../util/validation";
 const useCheck = (initialState) => {
   const [field, setField] = useState(initialState);
 
-  const checkValue = (event) => {
+  const checkValue = (event, password = null) => {
     const value = event.target.value;
 
     if (isEmpty(value)) {

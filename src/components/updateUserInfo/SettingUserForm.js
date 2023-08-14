@@ -1,5 +1,5 @@
-import { DATA_TYPE } from "../constants/dataTypes";
-import { SETTING_TITLE } from "../pages/Setting";
+import { DATA_TYPE } from "../../constants/dataTypes";
+import { SETTING_TITLE } from "../../pages/Setting";
 import SettingPasswordInput from "./SettingPasswordInput";
 import classes from "./SettingUserForm.module.css";
 import SettingUserInput from "./SettingUserInput";

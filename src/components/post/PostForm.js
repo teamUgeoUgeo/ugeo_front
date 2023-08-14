@@ -1,33 +1,42 @@
-import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
-import classes from "./CommentForm.module.css";
+import classes from "./PostForm.module.css";
 
-const CommentForm = ({ onSubmit }) => {
+const PostForm = ({ onSubmit }) => {
+  const [amount, setAmount] = useState("");
   const [detail, setDetail] = useState("");
-  const [focus, setFocus] = useState("");
+  const [checkDetail, setCheckDetail] = useState(false);
+  const [checkAmount, setCheckAmount] = useState(false);
   const [checkValue, setCheckValue] = useState(false);
 
   const formRef = useRef();
   const textareaRef = useRef();
 
   const onSubmitHandler = () => {
-    const commentData = {
+    const postData = {
+      amount: amount,
       detail: detail,
     };
 
-    onSubmit(commentData);
+    onSubmit(postData);
     formRef.current.reset();
   };
 
+  const preventSubmit = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
+  };
+
+  const onChangeAmountHandler = (event) => {
+    setCheckAmount(Number(event.target.value) > 9);
+    setAmount(event.target.value);
+  };
+
   const onChangeDetailHandler = (event) => {
-    setCheckValue(
+    setCheckDetail(
       event.target.value.split("").filter((el) => el !== " " && el !== "\n").length > 0
     );
     setDetail(event.target.value);
-  };
-
-  const onFocusHandler = () => {
-    setFocus(classes.focus);
   };
 
   const adjustTextareaHeight = () => {
@@ -39,23 +48,29 @@ const CommentForm = ({ onSubmit }) => {
 
   useEffect(() => {
     adjustTextareaHeight();
-  }, [detail]);
+    setCheckValue(checkDetail && checkAmount);
+  }, [detail, amount]);
 
   return (
     <form ref={formRef} className={classes.form} method="post">
+      <input
+        type="number"
+        name="amount"
+        placeholder="소비한 금액"
+        onKeyDown={() => preventSubmit(event)}
+        onChange={onChangeAmountHandler}
+      />
       <textarea
         ref={textareaRef}
         name="detail"
-        className={focus}
-        placeholder="댓글을 남겨보세요."
+        placeholder="어디다 썼나요?"
         maxLength={255}
-        onFocus={onFocusHandler}
         onChange={onChangeDetailHandler}
       ></textarea>
       <button
         disabled={checkValue ? false : true}
         type="button"
-        className={`${classes.button} ${checkValue ? "" : `disabled`} default`}
+        className={`${classes.button} ${checkValue ? "" : `disabled`} default round`}
         onClick={onSubmitHandler}
       >
         등록하기
@@ -64,8 +79,4 @@ const CommentForm = ({ onSubmit }) => {
   );
 };
 
-CommentForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
-
-export default CommentForm;
+export default PostForm;

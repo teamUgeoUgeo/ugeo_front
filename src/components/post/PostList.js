@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
 import Post from "./Post";
@@ -26,12 +25,6 @@ const PostList = ({ datas, onDelete, onModify }) => {
       })}
     </ul>
   );
-};
-
-PostList.propTypes = {
-  datas: PropTypes.array.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onModify: PropTypes.func.isRequired,
 };
 
 export default PostList;

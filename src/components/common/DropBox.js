@@ -1,6 +1,6 @@
 import MoreIcon from "@mui/icons-material/ExpandMoreRounded";
 import { useContext, useEffect, useRef, useState } from "react";
-import DropBoxContext from "../contexts/DropBoxContext";
+import DropBoxContext from "../../contexts/DropBoxContext";
 import classes from "./DropBox.module.css";
 
 const DropBox = ({ title, children }) => {

@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { DATA_TYPE, ERROR_MESSAGE, INPUT_TYPE } from "../constants/dataTypes";
-import UserinfoContext from "../contexts/UserinfoContext";
-import useCheck from "../hooks/useCheck";
-import { checkExist, hashPassword, login, register } from "../util/auth";
+import { DATA_TYPE, ERROR_MESSAGE, INPUT_TYPE } from "../../constants/dataTypes";
+import UserinfoContext from "../../contexts/UserinfoContext";
+import useCheck from "../../hooks/useCheck";
+import { checkExist, hashPassword, login, register } from "../../util/auth";
 import classes from "./AuthForm.module.css";
 
 const LoginForm = () => {
@@ -53,7 +53,7 @@ const LoginForm = () => {
         checkPassword(event);
         break;
       case DATA_TYPE.confirmPassword:
-        checkConfirmPassword(event);
+        checkConfirmPassword(event, password);
         break;
       default:
         break;

@@ -1,7 +1,6 @@
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
-import { formatDate } from "../util/crud";
+import { formatDate } from "../../util/crud";
 import classes from "./Post.module.css";
 
 const Post = ({ data, onDelete, onModify }) => {
@@ -177,10 +176,6 @@ const Post = ({ data, onDelete, onModify }) => {
       )}
     </>
   );
-};
-
-Post.propTypes = {
-  data: PropTypes.object.isRequired,
 };
 
 export default Post;

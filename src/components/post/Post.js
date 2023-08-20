@@ -1,14 +1,20 @@
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
+import PostContext from "../../contexts/PostContext";
+import UserinfoContext from "../../contexts/UserinfoContext";
 import { useClose } from "../../hooks/useClose";
 import { formatDate } from "../../util/crud";
 import classes from "./Post.module.css";
 
-const Post = ({ data, onDelete, onModify }) => {
+const Post = ({ data }) => {
+  const { onModify, onDelete } = useContext(PostContext);
   const [showEdit, setShowEdit] = useState("");
   const [toggleModify, setToggleModify] = useState(null);
   const [changeAmount, setChangeAmount] = useState(null);
   const [changeDetail, setChangeDetail] = useState(null);
+  const { user } = useContext(UserinfoContext);
+  const location = useLocation();
 
   const editRef = useRef();
   const textareaRef = useRef();
@@ -111,9 +117,11 @@ const Post = ({ data, onDelete, onModify }) => {
               </p>
               <p className={classes.date}>{formatDate(data.create_at)}</p>
             </div>
-            <div className="icon" onClick={(event) => onShowEdithandler(event, data.id)}>
-              <MoreVertIcon />
-            </div>
+            {data.username === user.username && location.pathname === "/" && (
+              <div className="icon" onClick={(event) => onShowEdithandler(event, data.id)}>
+                <MoreVertIcon />
+              </div>
+            )}
             {showEdit === data.id && (
               <ul ref={editRef} className={classes.edit} onClick={preventBubbling}>
                 <li>

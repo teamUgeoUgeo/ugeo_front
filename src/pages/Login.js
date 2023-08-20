@@ -1,7 +1,7 @@
 import React from "react";
-import AuthForm from "../components/AuthForm";
-import PageContent from "../components/PageContent";
-import classes from "../components/PageContent.module.css";
+import AuthForm from "../components/auth/AuthForm";
+import PageContent from "../components/common/PageContent";
+import classes from "../components/common/PageContent.module.css";
 
 const LoginPage = () => {
   return (

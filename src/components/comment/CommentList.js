@@ -1,7 +1,6 @@
-import PropTypes from "prop-types";
 import React from "react";
-import Comment from "../components/Comment";
-import classes from "../components/CommentList.module.css";
+import Comment from "./Comment";
+import classes from "./CommentList.module.css";
 
 const CommentList = ({ comment, onModify, onDelete }) => {
   const deleteHandler = (id) => {
@@ -21,12 +20,6 @@ const CommentList = ({ comment, onModify, onDelete }) => {
       ))}
     </ul>
   );
-};
-
-CommentList.propTypes = {
-  comment: PropTypes.array.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onModify: PropTypes.func.isRequired,
 };
 
 export default CommentList;

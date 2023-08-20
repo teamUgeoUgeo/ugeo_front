@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import UserinfoContext from "../contexts/UserinfoContext";
+import UserinfoContext from "../../contexts/UserinfoContext";
 
 import classes from "./UserInfo.module.css";
 

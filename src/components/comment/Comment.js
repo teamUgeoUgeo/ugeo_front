@@ -1,8 +1,7 @@
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
-import classes from "../components/Comment.module.css";
-import { formatDate } from "../util/crud";
+import { formatDate } from "../../util/crud";
+import classes from "./Comment.module.css";
 
 const Comment = ({ data, onDelete, onModify }) => {
   const [showEdit, setShowEdit] = useState("");
@@ -132,10 +131,6 @@ const Comment = ({ data, onDelete, onModify }) => {
       )}
     </>
   );
-};
-
-Comment.propTypes = {
-  data: PropTypes.object.isRequired,
 };
 
 export default Comment;

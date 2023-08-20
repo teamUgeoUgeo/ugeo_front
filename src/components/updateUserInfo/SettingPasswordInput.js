@@ -1,15 +1,14 @@
-import { useContext, useState } from "react";
-import { DATA_TYPE, INPUT_TYPE } from "../constants/dataTypes";
-import DropBoxContext from "../contexts/DropBoxContext";
-import useCheck from "../hooks/useCheck";
-import { getAuthToken, hashPassword } from "../util/auth";
-import { updateUserInfo } from "../util/user";
+import { useContext, useEffect, useState } from "react";
+import { DATA_TYPE, INPUT_TYPE } from "../../constants/dataTypes";
+import DropBoxContext from "../../contexts/DropBoxContext";
+import useCheck from "../../hooks/useCheck";
+import { getAuthToken, hashPassword } from "../../util/auth";
+import { updateUserInfo } from "../../util/user";
 import classes from "./SettingUserInput.module.css";
 
 const UpdatePasswordInput = () => {
   const token = getAuthToken();
   const { setIsChanged } = useContext(DropBoxContext);
-  const [isActive, setIsActive] = useState(false);
   const initialState = { isValid: false, message: "" };
 
   const {
@@ -17,16 +16,8 @@ const UpdatePasswordInput = () => {
     setField: setCurrentPassword,
     checkValue: checkCurrentPassword,
   } = useCheck(initialState);
-  const {
-    field: password,
-    setField: setPassword,
-    checkValue: checkPassword,
-  } = useCheck(initialState);
-  const {
-    field: confirmPassword,
-    setField: setConfirmPassword,
-    checkValue: checkConfirmPassword,
-  } = useCheck(initialState);
+  const { field: password, checkValue: checkPassword } = useCheck(initialState);
+  const { field: confirmPassword, checkValue: checkConfirmPassword } = useCheck(initialState);
 
   const [displayButton, setDisplayButton] = useState("");
   const [isBlurAllowed, setIsBlurAllowed] = useState(true);
@@ -40,19 +31,20 @@ const UpdatePasswordInput = () => {
         checkPassword(event);
         break;
       case DATA_TYPE.confirmPassword:
-        checkConfirmPassword(event);
-        setIsActive(true);
+        checkConfirmPassword(event, password);
         break;
       default:
         break;
     }
+  };
 
-    if (event.target === document.activeElement && isActive) {
-      setDisplayButton(event.target.name);
+  useEffect(() => {
+    if (confirmPassword.isValid) {
+      setDisplayButton(DATA_TYPE.confirmPassword);
     } else {
       setDisplayButton("");
     }
-  };
+  }, [confirmPassword]);
 
   const onBlurHandler = () => {
     if (!isBlurAllowed) {

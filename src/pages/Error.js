@@ -1,6 +1,6 @@
 import React from "react";
-import PageContent from "../components/PageContent";
-import classes from "../components/PageContent.module.css";
+import PageContent from "../components/common/PageContent";
+import classes from "../components/common/PageContent.module.css";
 
 const ErrorPage = () => {
   return (

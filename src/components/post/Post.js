@@ -1,7 +1,7 @@
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
-import { formatDate } from "../util/crud";
+import { useClose } from "../../hooks/useClose";
+import { formatDate } from "../../util/crud";
 import classes from "./Post.module.css";
 
 const Post = ({ data, onDelete, onModify }) => {
@@ -83,18 +83,7 @@ const Post = ({ data, onDelete, onModify }) => {
     return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (editRef.current && !editRef.current.contains(event.target)) {
-        setShowEdit(null);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [editRef]);
+  useClose(editRef, setShowEdit, null);
 
   const adjustTextareaHeight = () => {
     if (textareaRef.current) {
@@ -177,10 +166,6 @@ const Post = ({ data, onDelete, onModify }) => {
       )}
     </>
   );
-};
-
-Post.propTypes = {
-  data: PropTypes.object.isRequired,
 };
 
 export default Post;

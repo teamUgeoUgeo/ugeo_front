@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import PageContent from "../components/PageContent";
-import classes from "../components/PageContent.module.css";
-import PostForm from "../components/PostForm";
-import PostList from "../components/PostList";
-import Sidebar from "../components/Sidebar";
+import PageContent from "../components/common/PageContent";
+import classes from "../components/common/PageContent.module.css";
+import Sidebar from "../components/common/Sidebar";
+import PostForm from "../components/post/PostForm";
+import PostList from "../components/post/PostList";
 import UserinfoContext from "../contexts/UserinfoContext";
 import { getAuthToken } from "../util/auth";
 import { createPost, deletePost, getPost, updatePost } from "../util/crud";
@@ -69,12 +69,14 @@ const HomePage = () => {
       <>
         {!token && (
           <div className={`${classes.logout} max-width`}>
-            <h1>메인화면</h1>
-            <p>로그인 이전의 메인화면입니다.</p>
-            <p>로그인을 해 주세요.</p>
-            <Link className={classes.link + " link"} to="/user/login">
-              로그인하기
-            </Link>
+            <h1>UgeoUgeo</h1>
+            <p>가계부 외롭게 혼자 쓰지 말아요.</p>
+            <p>친구랑 같이 적어요.</p>
+            <div className={classes.flex}>
+              <Link className={classes.link + " link"} to="/user/login">
+                로그인하기
+              </Link>
+            </div>
           </div>
         )}
         {token && (

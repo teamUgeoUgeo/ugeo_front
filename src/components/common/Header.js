@@ -1,7 +1,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuthToken, logout } from "../util/auth";
+import { getAuthToken, logout } from "../../util/auth";
 import classes from "./Header.module.css";
+import UserSearchbar from "./UserSearchbar";
 
 function Header() {
   const token = getAuthToken();
@@ -16,7 +17,8 @@ function Header() {
     <header className={classes.header}>
       <div className={`${classes.headerwrap} max-width space-between`}>
         <Link to="/">logo</Link>
-        <nav>
+        <nav className={classes.nav}>
+          <UserSearchbar />
           <ul>
             {!token && (
               <li>

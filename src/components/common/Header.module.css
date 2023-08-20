@@ -13,6 +13,16 @@
 .headerwrap {
   padding: 0 1.875rem;
 }
+.nav {
+  width: 35%;
+  height: 100%;
+  max-width: 22.5rem;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.625rem;
+}
 .logout {
   cursor: pointer;
   background: transparent;

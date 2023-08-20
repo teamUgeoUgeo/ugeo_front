@@ -1,0 +1,16 @@
+.profile {
+  background: #fff;
+  border-radius: 15px;
+  padding: 0.9375rem 0.625rem 1.5625rem 1.25rem;
+  margin: 0 0 1.25rem;
+  /* border-bottom: 1px solid #ddd; */
+}
+
+.nickname {
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.username {
+  color: #999;
+}

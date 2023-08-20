@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import classes from "./CommentForm.module.css";
 
@@ -62,10 +61,6 @@ const CommentForm = ({ onSubmit }) => {
       </button>
     </form>
   );
-};
-
-CommentForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
 };
 
 export default CommentForm;

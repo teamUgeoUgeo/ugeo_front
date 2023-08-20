@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import CommentForm from "../components/CommentForm";
-import CommentList from "../components/CommentList";
-import PageContent from "../components/PageContent";
-import classes from "../components/PageContent.module.css";
-import Post from "../components/Post";
-import Sidebar from "../components/Sidebar";
+import CommentForm from "../components/comment/CommentForm";
+import CommentList from "../components/comment/CommentList";
+import PageContent from "../components/common/PageContent";
+import classes from "../components/common/PageContent.module.css";
+import Sidebar from "../components/common/Sidebar";
+import Post from "../components/post/Post";
 import UserinfoContext from "../contexts/UserinfoContext";
 
 import { getAuthToken } from "../util/auth";

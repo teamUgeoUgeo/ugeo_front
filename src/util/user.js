@@ -34,3 +34,16 @@ export const updateUserInfo = async (url, body, token) => {
     return error.message;
   }
 };
+
+export const searchUserInfo = async (url) => {
+  try {
+    const response = await fetch(url, {
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    return error.message;
+  }
+};

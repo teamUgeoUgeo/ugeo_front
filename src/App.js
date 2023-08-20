@@ -5,6 +5,7 @@ import DetailPage from "./pages/Detail";
 import ErrorPage from "./pages/Error";
 import HomePage from "./pages/Home";
 import LoginPage from "./pages/Login";
+import ProfilePage from "./pages/Profile";
 import RootLayout from "./pages/Root";
 import SettingPage from "./pages/Setting";
 
@@ -28,6 +29,7 @@ const App = () => {
               element: <CreateCompletePage />,
             },
             { path: "setting", element: <SettingPage /> },
+            { path: "profile/:username", element: <ProfilePage /> },
           ],
         },
         {

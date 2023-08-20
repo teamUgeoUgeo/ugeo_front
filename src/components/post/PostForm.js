@@ -1,8 +1,9 @@
-import PropTypes from "prop-types";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import PostContext from "../../contexts/PostContext";
 import classes from "./PostForm.module.css";
 
-const PostForm = ({ onSubmit }) => {
+const PostForm = () => {
+  const { onSubmit } = useContext(PostContext);
   const [amount, setAmount] = useState("");
   const [detail, setDetail] = useState("");
   const [checkDetail, setCheckDetail] = useState(false);
@@ -35,7 +36,7 @@ const PostForm = ({ onSubmit }) => {
 
   const onChangeDetailHandler = (event) => {
     setCheckDetail(
-      event.target.value.split("").filter((el) => el !== " " && el !== "\n").length > 0
+      event.target.value.split("").filter((el) => el !== " " && el !== "\n").length > 0,
     );
     setDetail(event.target.value);
   };
@@ -78,10 +79,6 @@ const PostForm = ({ onSubmit }) => {
       </button>
     </form>
   );
-};
-
-PostForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
 };
 
 export default PostForm;

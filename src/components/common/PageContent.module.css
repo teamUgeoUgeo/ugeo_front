@@ -18,6 +18,13 @@
   align-items: center;
   justify-content: center;
 }
+.content .flex {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  gap: 0.625rem;
+  margin: 1.25rem 0 0;
+}
 .content .login {
   border-radius: 0;
   display: flex;
@@ -35,9 +42,6 @@
 .content h1 {
   font-size: 1.5rem;
   margin: 0 0 0.9375rem;
-}
-.link {
-  margin: 1.25rem 0 0;
 }
 .comment_form {
   background: #fff;

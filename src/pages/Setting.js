@@ -1,10 +1,10 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import DropBox from "../components/DropBox";
-import PageContent from "../components/PageContent";
-import classes from "../components/PageContent.module.css";
-import SettingUserForm from "../components/SettingUserForm";
-import Sidebar from "../components/Sidebar";
+import DropBox from "../components/common/DropBox";
+import PageContent from "../components/common/PageContent";
+import classes from "../components/common/PageContent.module.css";
+import Sidebar from "../components/common/Sidebar";
+import SettingUserForm from "../components/updateUserInfo/SettingUserForm";
 import { getAuthToken } from "../util/auth";
 
 export const SETTING_TITLE = {
@@ -22,14 +22,12 @@ const SettingPage = () => {
           <div className={`${classes.login} max-width`}>
             <Sidebar></Sidebar>
             <section className={classes.section}>
-              <DropBox
-                title={SETTING_TITLE.userinfo}
-                children={<SettingUserForm title={SETTING_TITLE.userinfo} />}
-              />
-              <DropBox
-                title={SETTING_TITLE.password}
-                children={<SettingUserForm title={SETTING_TITLE.password} />}
-              />
+              <DropBox title={SETTING_TITLE.userinfo}>
+                <SettingUserForm title={SETTING_TITLE.userinfo} />
+              </DropBox>
+              <DropBox title={SETTING_TITLE.password}>
+                <SettingUserForm title={SETTING_TITLE.password} />
+              </DropBox>
             </section>
           </div>
         </PageContent>

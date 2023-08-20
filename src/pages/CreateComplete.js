@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import PageContent from "../components/PageContent";
-import classes from "../components/PageContent.module.css";
+import PageContent from "../components/common/PageContent";
+import classes from "../components/common/PageContent.module.css";
 
 const CreateCompletePage = () => {
   return (

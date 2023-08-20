@@ -1,11 +1,11 @@
 import { useContext, useState } from "react";
-import { DATA_TYPE, INPUT_TYPE } from "../constants/dataTypes";
-import DropBoxContext from "../contexts/DropBoxContext";
-import UserinfoContext from "../contexts/UserinfoContext";
-import useCheck from "../hooks/useCheck";
-import { checkExist, getAuthToken } from "../util/auth";
-import { updateUserInfo } from "../util/user";
-import { isSame } from "../util/validation";
+import { DATA_TYPE, INPUT_TYPE } from "../../constants/dataTypes";
+import DropBoxContext from "../../contexts/DropBoxContext";
+import UserinfoContext from "../../contexts/UserinfoContext";
+import useCheck from "../../hooks/useCheck";
+import { checkExist, getAuthToken } from "../../util/auth";
+import { updateUserInfo } from "../../util/user";
+import { isSame } from "../../util/validation";
 import classes from "./SettingUserInput.module.css";
 
 const UpdateUserinfoInput = ({ title, dataType }) => {
@@ -14,7 +14,10 @@ const UpdateUserinfoInput = ({ title, dataType }) => {
   const { setIsChanged } = useContext(DropBoxContext);
   const initialState = { isValid: false, message: "" };
   const initialValue = user[dataType] || "";
-  const { field, setField, checkValue } = useCheck({ ...initialState, value: initialValue });
+  const { field, setField, checkValue } = useCheck({
+    ...initialState,
+    value: initialValue,
+  });
   const [displayButton, setDisplayButton] = useState("");
   const [isBlurAllowed, setIsBlurAllowed] = useState(true);
 

@@ -1,12 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { getAuthToken } from "../../util/auth";
+import UserInfo from "../user/UserInfo";
 import classes from "./Sidebar.module.css";
-import UserInfo from "./UserInfo";
 
 const Sidebar = () => {
+  const token = getAuthToken();
+
   return (
     <aside className={classes.sidemenu}>
-      <UserInfo></UserInfo>
+      {token && <UserInfo />}
       <nav>
         <ul>
           <li>
